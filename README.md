@@ -1,7 +1,7 @@
 # ChezToiChezMoi
 1)Description du projet
 
-  Ce projet vise à la création d’un site web de réservation de logements entre particuliers. L’objectif est de permettre à des propriétaires de publier des annonces pour leurs biens      et aux utilisateurs de rechercher, réserver, et évaluer ces logements. ChezToiChezMoi ambitionne de proposer une plateforme intuitive et efficace pour faciliter les échanges entre      propriétaires et voyageurs.
+  Ce projet vise à la création d’un site web de réservation de logements entre particuliers. L’objectif est de permettre à des propriétaires de publier des annonces pour leurs biens et aux utilisateurs de rechercher, réserver, et évaluer ces logements. ChezToiChezMoi ambitionne de proposer une plateforme intuitive et efficace pour faciliter les échanges entre      propriétaires et voyageurs.
 
   
   Ce projet a été développé en collaboration avec Alexandre , Eleni , Manal, et Henry, chacun ayant contribué à différentes étapes, de la conception à la réalisation.
@@ -9,17 +9,19 @@
 2)Fonctionnalités du projet
   
   -Gestion des utilisateurs
-  
-  -Permet aux utilisateurs de s'inscrire, de se connecter et de gérer leurs profils.
+        Permet aux utilisateurs de s'inscrire, de se connecter et de gérer leurs profils.
   
   -Gestion des réservations
-  -Offre aux clients la possibilité de réserver un logement en fonction des disponibilités.
+        Offre aux clients la possibilité de réserver un logement en fonction des disponibilités.
+
   -Recherche et filtrage
-  -Permet de rechercher des logements et de les filtrer selon différents critères (prix, localisation, type de logement, etc.).
+        Permet de rechercher des logements et de les filtrer selon différents critères (prix, localisation, type de logement, etc.).
+
   -Gestion des annonces pour les propriétaires
-  -Donne la possibilité aux propriétaires de créer, modifier et supprimer leurs annonces.
+        Donne la possibilité aux propriétaires de créer, modifier et supprimer leurs annonces.
+
   -Avis et notes
-  -Inclut un lien sous chaque annonce permettant aux utilisateurs de consulter les avis et notes pour les aider à prendre une décision.
+        Inclut un lien sous chaque annonce permettant aux utilisateurs de consulter les avis et notes pour les aider à prendre une décision.
   
   
 
@@ -33,6 +35,8 @@ prenom : Prénom de l’utilisateur
 email : Adresse e-mail 
 motDePasse : Mot de passe sécurisé (haché)
 dateInscription : Date d’inscription
+
+
 Table : Annonce
 idAnnonce : Identifiant unique (clé primaire) (int)
 titre : Titre de l’annonce (String)
@@ -44,6 +48,7 @@ nbPersonne : Capacité d’accueil (nombre de personnes) (int)
 idUtilisateur : Référence à l’utilisateur propriétaire (clé étrangère vers idUtilisateur) (int)
 dateCreation : Date de création de l’annonce (DateTime)
 disponibilite : Disponibilités (à partir de quand l’annonce est disponible) (DateTime)
+
 
 Table : Réservation
 idReservation : Identifiant unique (clé primaire) (int)
