@@ -2,6 +2,8 @@
 1)Description du projet
 
   Ce projet vise à la création d’un site web de réservation de logements entre particuliers. L’objectif est de permettre à des propriétaires de publier des annonces pour leurs biens      et aux utilisateurs de rechercher, réserver, et évaluer ces logements. ChezToiChezMoi ambitionne de proposer une plateforme intuitive et efficace pour faciliter les échanges entre      propriétaires et voyageurs.
+
+  
   Ce projet a été développé en collaboration avec Alexandre , Eleni , Manal, et Henry, chacun ayant contribué à différentes étapes, de la conception à la réalisation.
 
 2)Fonctionnalités du projet
