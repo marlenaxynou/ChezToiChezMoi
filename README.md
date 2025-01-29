@@ -8,8 +8,10 @@
 
 2)Fonctionnalités du projet
   
-  -#Gestion des utilisateurs
+  -Gestion des utilisateurs
+  
   -Permet aux utilisateurs de s'inscrire, de se connecter et de gérer leurs profils.
+  
   -Gestion des réservations
   -Offre aux clients la possibilité de réserver un logement en fonction des disponibilités.
   -Recherche et filtrage
