@@ -53,7 +53,7 @@ disponibilite : Disponibilités (à partir de quand l’annonce est disponible) 
 Table : Réservation
 idReservation : Identifiant unique (clé primaire) (int)
 idAnnonce : Référence à l’annonce réservée (clé étrangère vers idAnnonce) (int)
-idClient : Référence au client ayant réservé (clé étrangère vers idUtilisateur) (int)
+idUtilisateur : Référence au client ayant réservé (clé étrangère vers idUtilisateur) (int)
 dateDebut : Date de début de la réservation (DateTime)
 dateFin : Date de fin de la réservation  (DateTime)
 
@@ -61,7 +61,7 @@ dateFin : Date de fin de la réservation  (DateTime)
 Table : Avis
 idAvis : Identifiant unique (clé primaire) (int)
 idAnnonce : Référence à l’annonce concernée (clé étrangère vers idAnnonce) (int)
-idClient : Référence au client ayant laissé l’avis (clé étrangère vers idUtilisateur) (int)
+idUtilisateur : Référence au client ayant laissé l’avis (clé étrangère vers idUtilisateur) (int)
 note : Note donnée (de 1 à 5) (int)
 commentaire : Commentaire de l’utilisateur (String)
 dateAvis : Date de publication de l’avis (DateTime)
