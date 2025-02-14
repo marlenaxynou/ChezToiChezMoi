@@ -1,67 +1,73 @@
-# ChezToiChezMoi
-1)Description du projet
+# ChezToiChezMoi 
 
-  Ce projet vise à la création d’un site web de réservation de logements entre particuliers. L’objectif est de permettre à des propriétaires de publier des annonces pour leurs biens et aux utilisateurs de rechercher, réserver, et évaluer ces logements. ChezToiChezMoi ambitionne de proposer une plateforme intuitive et efficace pour faciliter les échanges entre      propriétaires et voyageurs.
+[![Symfony](https://img.shields.io/badge/Symfony-7.x-green)](https://symfony.com/)  
+[![PHP](https://img.shields.io/badge/PHP-8.3-blue)](https://www.php.net/)  
+[![Docker](https://img.shields.io/badge/Docker-Compose-blue)](https://www.docker.com/)
 
-  
-  Ce projet a été développé en collaboration avec Alexandre , Eleni , Manal, et Henry, chacun ayant contribué à différentes étapes, de la conception à la réalisation.
+## Description
+ChezToiChezMoi est une plateforme de réservation de logements entre particuliers. Les propriétaires peuvent publier des annonces pour leurs biens, tandis que les utilisateurs peuvent rechercher, réserver et évaluer les logements. L’objectif est de proposer une expérience intuitive et fluide pour simplifier les échanges entre propriétaires et voyageurs.
 
-2)Fonctionnalités du projet
-  
-  -Gestion des utilisateurs
-        Permet aux utilisateurs de s'inscrire, de se connecter et de gérer leurs profils.
-  
-  -Gestion des réservations
-        Offre aux clients la possibilité de réserver un logement en fonction des disponibilités.
+Projet développé en collaboration avec **Alexandre, Eleni, Manal et Henry**.
 
-  -Recherche et filtrage
-        Permet de rechercher des logements et de les filtrer selon différents critères (prix, localisation, type de logement, etc.).
+## Fonctionnalités principales
 
-  -Gestion des annonces pour les propriétaires
-        Donne la possibilité aux propriétaires de créer, modifier et supprimer leurs annonces.
+- **Gestion des utilisateurs** : Inscription, connexion et gestion du profil.
+- **Gestion des réservations** : Réservation de logements selon leur disponibilité.
+- **Recherche et filtrage** : Recherche avancée avec filtres (prix, localisation, type de logement, etc.).
+- **Gestion des annonces** : Création, modification et suppression d’annonces par les propriétaires.
+- **Avis et notes** : Consultation et publication d’avis et de notes sur les logements.
 
-  -Avis et notes
-        Inclut un lien sous chaque annonce permettant aux utilisateurs de consulter les avis et notes pour les aider à prendre une décision.
-  
-  
+![Aperçu du projet](https://github.com/user-attachments/assets/d315cd8e-3172-4e11-9a9d-44a47305e76c)
 
-<img width="272" alt="Screenshot 2025-01-29 at 3 13 27 PM" src="https://github.com/user-attachments/assets/d315cd8e-3172-4e11-9a9d-44a47305e76c" />
+## Modèle de base de données
 
+### **Table : Utilisateur**
+| Champ            | Type        | Description                          |
+|-----------------|------------|--------------------------------------|
+| idUtilisateur   | INT (PK)    | Identifiant unique                  |
+| nom            | STRING      | Nom de l’utilisateur                |
+| prenom         | STRING      | Prénom de l’utilisateur             |
+| email          | STRING      | Adresse e-mail unique               |
+| motDePasse     | STRING (haché) | Mot de passe sécurisé              |
+| dateInscription| DATETIME    | Date d’inscription                  |
 
-Table : Utilisateur
-idUtilisateur : Identifiant unique (clé primaire)
-nom : Nom de l’utilisateur
-prenom : Prénom de l’utilisateur
-email : Adresse e-mail 
-motDePasse : Mot de passe sécurisé (haché)
-dateInscription : Date d’inscription
+### **Table : Annonce**
+| Champ         | Type        | Description                                |
+|--------------|------------|--------------------------------------------|
+| idAnnonce    | INT (PK)    | Identifiant unique                         |
+| titre        | STRING      | Titre de l’annonce                         |
+| description  | STRING      | Description détaillée                      |
+| prix         | INT         | Prix par nuit                              |
+| adresse     | STRING      | Adresse du logement                        |
+| ville       | STRING      | Ville où se trouve le logement             |
+| nbPersonne  | INT         | Capacité d’accueil                         |
+| idUtilisateur | INT (FK)   | Référence au propriétaire                  |
+| dateCreation | DATETIME    | Date de création de l’annonce              |
+| disponibilite | DATETIME    | Disponibilité du logement                  |
 
+### **Table : Réservation**
+| Champ        | Type        | Description                                |
+|-------------|------------|--------------------------------------------|
+| idReservation | INT (PK)   | Identifiant unique                        |
+| idAnnonce    | INT (FK)   | Référence à l’annonce réservée            |
+| idUtilisateur | INT (FK)   | Référence au client                       |
+| dateDebut    | DATETIME   | Date de début de la réservation           |
+| dateFin      | DATETIME   | Date de fin de la réservation             |
 
-Table : Annonce
-idAnnonce : Identifiant unique (clé primaire) (int)
-titre : Titre de l’annonce (String)
-description : Description détaillée de l’annonce (String)
-prix : Prix par nuit (int)
-adresse : Adresse du logement (String)
-ville : Ville où se trouve le logement (String)
-nbPersonne : Capacité d’accueil (nombre de personnes) (int)
-idUtilisateur : Référence à l’utilisateur propriétaire (clé étrangère vers idUtilisateur) (int)
-dateCreation : Date de création de l’annonce (DateTime)
-disponibilite : Disponibilités (à partir de quand l’annonce est disponible) (DateTime)
+### **Table : Avis**
+| Champ        | Type        | Description                                |
+|-------------|------------|--------------------------------------------|
+| idAvis      | INT (PK)   | Identifiant unique                        |
+| idAnnonce   | INT (FK)   | Référence à l’annonce concernée           |
+| idUtilisateur | INT (FK)   | Référence au client ayant laissé un avis  |
+| note        | INT (1-5)  | Note attribuée                            |
+| commentaire | STRING     | Commentaire laissé                        |
+| dateAvis    | DATETIME   | Date de publication de l’avis             |
 
+---
 
-Table : Réservation
-idReservation : Identifiant unique (clé primaire) (int)
-idAnnonce : Référence à l’annonce réservée (clé étrangère vers idAnnonce) (int)
-idClient : Référence au client ayant réservé (clé étrangère vers idUtilisateur) (int)
-dateDebut : Date de début de la réservation (DateTime)
-dateFin : Date de fin de la réservation  (DateTime)
+💡 **Technologies utilisées** : Symfony 7.x, PHP 8.3, Docker Compose  
 
+🚀 **Objectif** : Offrir une plateforme sécurisée et ergonomique pour la location entre particuliers.  
 
-Table : Avis
-idAvis : Identifiant unique (clé primaire) (int)
-idAnnonce : Référence à l’annonce concernée (clé étrangère vers idAnnonce) (int)
-idClient : Référence au client ayant laissé l’avis (clé étrangère vers idUtilisateur) (int)
-note : Note donnée (de 1 à 5) (int)
-commentaire : Commentaire de l’utilisateur (String)
-dateAvis : Date de publication de l’avis (DateTime)
+📌 **Statut** : En cours de développement
