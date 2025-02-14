@@ -1,4 +1,5 @@
-# ChezToiChezMoi 
+# ChezToiChezMoi <img src="https://cdn.discordapp.com/attachments/1147986579881721877/1332869760626589696/ChezToiChezMoi.png?ex=67b08872&is=67af36f2&hm=9f62f5e31b0ba8bc583671ce92b8c7a36ad6191b445f239b277ecbcca796563d&" alt="Logo ChezToiChezMoi" width="50"/>
+
 
 [![Symfony](https://img.shields.io/badge/Symfony-7.x-green)](https://symfony.com/)  
 [![PHP](https://img.shields.io/badge/PHP-8.3-blue)](https://www.php.net/)  
