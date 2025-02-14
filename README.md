@@ -72,3 +72,4 @@ Projet développé en collaboration avec **Alexandre, Eleni, Manal et Henry**.
 🚀 **Objectif** : Offrir une plateforme sécurisée et ergonomique pour la location entre particuliers.  
 
 📌 **Statut** : En cours de développement
+
