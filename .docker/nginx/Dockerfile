@@ -5,7 +5,7 @@ COPY nginx.conf /etc/nginx/
 COPY templates /etc/nginx/templates/
 
 # Définir l'upstream pour PHP
-RUN echo "upstream php-upstream { server cheztoichezmoi_php:9003; }" > /etc/nginx/conf.d/upstream.conf
+RUN echo "upstream php-upstream { server ctcm_php:9003; }" > /etc/nginx/conf.d/upstream.conf
 
 # Exposer les ports nécessaires
 EXPOSE 80
