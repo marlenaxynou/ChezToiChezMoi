@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - ChezToiChezMoi{% endblock %}
+
+{% block body %}
+    <div class="text-center mt-5">
+        <h1 class="display-1 fw-bold text-brown" style="font-size: 4rem;">Trouvez un appartement pour vos vacances</h1>
+<p class="fs-2 text-secondary" style="font-size: 2rem;">Nous avons plusieurs milliers d’appartements pour tous les goûts !</p>
+
+
+        <div class="search-box mt-4 bg-white p-4 rounded-pill d-inline-flex align-items-center shadow-sm">
+            <input type="text" class="border-0 ps-3 fs-5" placeholder="Où chercher destination">
+            <input type="date" class="border-0 ps-3 fs-5">
+            <span class="search-icon ps-3" style="font-size: 2rem; cursor: pointer;"></span>
+        </div>
+    </div>
+{% endblock %}
