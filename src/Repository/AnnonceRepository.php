@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Annonce;
@@ -16,28 +15,19 @@ class AnnonceRepository extends ServiceEntityRepository
         parent::__construct($registry, Annonce::class);
     }
 
-    //    /**
-    //     * @return Annonce[] Returns an array of Annonce objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Annonce
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Annonce[] Returns an array of Annonce objects
+     */
+    public function findByDestinationAndDates(string $destination, string $arrival, string $departure): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.ville = :destination')
+            ->andWhere('a.disponibilite >= :arrival')
+            ->andWhere('a.disponibilite <= :departure')
+            ->setParameter('destination', $destination)
+            ->setParameter('arrival', $arrival)
+            ->setParameter('departure', $departure)
+            ->getQuery()
+            ->getResult();
+    }
 }

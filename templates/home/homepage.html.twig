@@ -8,10 +8,10 @@
         <p>Découvrez des milliers de chambres d'hôtel pour tous les goûts et tous les budgets.</p>
 
         <div class="search-box">
-            <form action="#" method="GET">
-                <input type="text" placeholder="Destination" required>
-                <input type="date" placeholder="Arrivée" required>
-                <input type="date" placeholder="Départ" required>
+            <form action="{{ path('app_search') }}" method="GET">
+                <input type="text" name="destination" placeholder="Destination" required>
+                <input type="date" name="arrival" placeholder="Arrivée" required>
+                <input type="date" name="departure" placeholder="Départ" required>
                 <button type="submit"><i class="fas fa-search"></i> Rechercher</button>
             </form>
         </div>
