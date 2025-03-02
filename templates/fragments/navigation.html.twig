@@ -8,11 +8,18 @@
             <li><a href="#">Chambres</a></li>
             <li><a href="#">À Propos</a></li>
             <li><a href="#">Contact</a></li>
-            <li>
-                <a href="#">
+
+            {% if app.user %}
+                <li>
+                    <i class="fas fa-user"></i> <span>{{ app.user.prenom }}</span>
+                </li>
+                <li>
+                    <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a> 
+            {% else %}
+                <li><a href="{{ path('app_login') }}">
                     <i class="fas fa-user"></i> Connexion
-                </a>
-            </li>
+                </a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>

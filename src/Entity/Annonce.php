@@ -42,7 +42,7 @@ class Annonce
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $id_Utilisateur = null;
+    private ?Utilisateur $id_utilisateur = null;
 
     /**
      * @var Collection<int, Reservation>
@@ -172,12 +172,12 @@ class Annonce
 
     public function getIdUtilisateur(): ?Utilisateur
     {
-        return $this->id_Utilisateur;
+        return $this->id_utilisateur;
     }
 
-    public function setIdUtilisateur(?Utilisateur $id_Utilisateur): static
+    public function setIdUtilisateur(?Utilisateur $id_utilisateur): static
     {
-        $this->id_Utilisateur = $id_Utilisateur;
+        $this->id_utilisateur = $id_utilisateur;
 
         return $this;
     }

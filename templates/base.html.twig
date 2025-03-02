@@ -10,6 +10,12 @@
 <body>
     {% include 'fragments/navigation.html.twig' %}
 
+    {% for messages in app.flashes %}
+        {% for message in messages %}
+            <p>{{ message|raw }}</p>
+        {% endfor %}
+    {% endfor %}
+
     <div class="main-content">
         {% block body %}{% endblock %}
     </div>
