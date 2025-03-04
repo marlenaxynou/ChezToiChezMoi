@@ -1,0 +1,32 @@
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/annonce.css') }}">
+{% endblock %}
+
+{% block body %}
+    <!-- Le bouton "Retour à l'accueil" en haut à gauche -->
+    <a href="{{ path('app_home') }}" class="return-btn">Retour à l'accueil</a>
+    
+    <div class="container">
+        <h1>Créer une annonce</h1>
+        
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            {{ form_row(form.titre) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.prix) }}
+            {{ form_row(form.adresse) }}
+            {{ form_row(form.ville) }}
+            {{ form_row(form.nb_personne) }}
+            {{ form_row(form.disponibilite) }}
+            {{ form_row(form.images) }}
+            <button type="submit" class="btn">Créer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
