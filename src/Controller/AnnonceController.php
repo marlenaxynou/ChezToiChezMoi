@@ -50,6 +50,12 @@ class AnnonceController extends AbstractController
             
 
             
+            $user = $this->getUser(); // Récupère l'utilisateur connecté
+            if (!$user) {
+                throw new \Exception("Aucun utilisateur connecté !");
+            }
+
+            $annonce->setIdUtilisateur($user);
             $this->addFlash('success', 'Votre annonce a été créée avec succès !');
             $em->persist($annonce);
             $em->flush();
