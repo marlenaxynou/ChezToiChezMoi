@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,7 +12,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email')]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,10 +35,13 @@ class Utilisateur
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_inscription = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $verified = false; 
+
     /**
      * @var Collection<int, Annonce>
      */
-    #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'id_Utilisateur')]
+    #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'id_utilisateur')]
     private Collection $annonces;
 
     /**
@@ -54,6 +61,7 @@ class Utilisateur
         $this->annonces = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->date_inscription = new \DateTime();
     }
 
     public function getId(): ?int
@@ -119,6 +127,44 @@ class Utilisateur
         $this->date_inscription = $date_inscription;
 
         return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): self
+    {
+        $this->verified = $verified;
+        return $this;
+    }
+
+    // Implémentation UserInterface
+    public function getRoles(): array
+    {
+        return ['ROLE_USER']; // Symfony demande un rôle, on met un par défaut
+    }
+
+    public function getPassword(): string
+    {
+        return $this->mot_de_passe;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->mot_de_passe = $password;
+        return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Effacer les données sensibles si nécessaire
     }
 
     /**
