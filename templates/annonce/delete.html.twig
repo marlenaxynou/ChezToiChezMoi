@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer une annonce - ChezToiChezMoi{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/annonce.css') }}">
+{% endblock %}
+
+{% block body %}
+    <a href="{{ path('annonce_list') }}" class="return-btn">Retour aux annonces</a>
+
+    <div class="container text-center">
+        <h1>Supprimer l'annonce</h1>
+        <p>Êtes-vous sûr de vouloir supprimer cette annonce ? Cette action est irréversible.</p>
+
+        <div class="annonce-card">
+            <h2>{{ annonce.titre }}</h2>
+            <p>{{ annonce.description }}</p>
+            <p><strong>Prix :</strong> {{ annonce.prix }} € / nuit</p>
+        </div>
+
+        <form action="{{ path('annonce_delete', { id: annonce.id }) }}" method="POST">
+            <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+            <a href="{{ path('annonce_list') }}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+{% endblock %}
