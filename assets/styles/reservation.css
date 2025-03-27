@@ -1,0 +1,86 @@
+.luxury-room-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background: #F4F1EA;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.room-details {
+    display: flex;
+    gap: 20px;
+}
+
+.room-image img {
+    width: 350px;
+    border-radius: 8px;
+}
+
+.room-info {
+    flex: 1;
+}
+
+.room-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5A3E2B;
+}
+
+.room-description {
+    font-size: 16px;
+    color: #666;
+}
+
+.room-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #B8860B;
+}
+
+.btn-reserver {
+    background-color: #B8860B;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.reviews-section {
+    margin-top: 30px;
+    padding: 15px;
+    background: #FFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review {
+    margin-top: 15px;
+}
+
+.review-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #5A3E2B;
+}
+
+.review-author {
+    font-size: 14px;
+    color: #B8860B;
+}
+
+.review-description {
+    font-size: 14px;
+    color: #444;
+}
