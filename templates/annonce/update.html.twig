@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'annonce - ChezToiChezMoi{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/annonce.css') }}">
+{% endblock %}
+
+{% block body %}
+    <a href="{{ path('annonce_list') }}" class="return-btn">Retour aux annonces</a>
+
+    <div class="container">
+        <h1 class="text-center">Modifier l'annonce</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="form-container">
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                
+                {{ form_row(form.titre) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.prix) }}
+                {{ form_row(form.adresse) }}
+                {{ form_row(form.ville) }}
+                {{ form_row(form.nb_personne) }}
+                {{ form_row(form.disponibilite) }}
+                {{ form_row(form.images) }}
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">Enregistrer les modifications</button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ annonce.titre }}</h1>
+    <p><strong>Description :</strong> {{ annonce.description }}</p>
+    <p><strong>Prix :</strong> {{ annonce.prix }} € / nuit</p>
+    <p><strong>Adresse :</strong> {{ annonce.adresse }}, {{ annonce.ville }}</p>
+    <p><strong>Capacité :</strong> {{ annonce.getNbPersonne }} personnes</p>
+    <p><strong>Disponibilité :</strong> {{ annonce.disponibilite ? 'Disponible' : 'Non disponible' }}</p>
+    
+    {% if annonce.images|length > 0 %}
+        <img src="{{ asset('uploads/images/' ~ annonce.images[0].chemin) }}" alt="Image de l'annonce">
+    {% endif %}
+
+    {% if app.user == annonce.idUtilisateur %}
+        <a href="{{ path('annonce_edit', { id: annonce.id }) }}">Modifier</a>
+        <a href="{{ path('annonce_delete', { id: annonce.id }) }}" onclick="return confirm('Êtes-vous sûr ?');">Supprimer</a>
+    {% endif %}
+    
+    <a href="{{ path('annonce_list') }}">Retour à la liste</a>
+{% endblock %}

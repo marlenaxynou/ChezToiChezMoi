@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats de recherche{% endblock %}
+
+{% block body %}
+    <h1>Résultats de recherche</h1>
+    <ul>
+        {% for annonce in annonces %}
+            <li>
+                <a href="{{ path('app_reservation', {id: annonce.id}) }}">{{ annonce.titre }}</a>
+                - {{ annonce.ville }}
+                - {{ annonce.prix }}€
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des annonces</h1>
+    <ul>
+        {% for annonce in annonces %}
+            <li>
+                <a href="{{ path('annonce_read', { id: annonce.id }) }}">{{ annonce.titre }}</a> - {{ annonce.prix }}€
+                {% if app.user == annonce.idUtilisateur %}
+                    <a href="{{ path('annonce_edit', { id: annonce.id }) }}">Modifier</a>
+                    <a href="{{ path('annonce_delete', { id: annonce.id }) }}" onclick="return confirm('Êtes-vous sûr ?');">Supprimer</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
