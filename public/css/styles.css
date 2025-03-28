@@ -1,5 +1,7 @@
 /* Général */
-html, body {
+
+html,
+body {
     height: 100%;
     margin: 0;
     display: flex;
@@ -8,14 +10,17 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
+
 /* Header */
+
 header {
     padding: 15px 0;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: transparent; /* Suppression du fond coloré */
+    background: transparent;
+    /* Suppression du fond coloré */
 }
 
 .navbar {
@@ -27,8 +32,16 @@ header {
     padding: 0 20px;
 }
 
+.no-background {
+    background: none !important;
+}
+
+
+/* Suppression du fond coloré */
+
 .logo img {
-    height: 70px; /* Logo plus grand */
+    height: 70px;
+    /* Logo plus grand */
 }
 
 .nav-links {
@@ -45,17 +58,21 @@ header {
 
 .nav-links li a {
     text-decoration: none;
-    color: #ffff; /* Couleur de texte sombre */
+    color: #ffff;
+    /* Couleur de texte sombre */
     font-size: 1rem;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
 .nav-links li a:hover {
-    color: #8B5E3B; /* Couleur au survol */
+    color: #8B5E3B;
+    /* Couleur au survol */
 }
 
+
 /* Main Content */
+
 .main-content {
     flex: 1;
     display: flex;
@@ -63,13 +80,17 @@ header {
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding-top: 80px;
+    /* Adjust margin based on navbar height */
 }
 
 .hero-section {
-    height: 100vh; /* Prend toute la hauteur de la page */
+    height: 100vh;
+    /* Prend toute la hauteur de la page */
     width: 100%;
     background: url('../images/hero.jpg') no-repeat center center;
-    background-size: cover; /* Couvre toute la zone */
+    background-size: cover;
+    /* Couvre toute la zone */
     color: white;
     display: flex;
     flex-direction: column;
@@ -99,7 +120,8 @@ header {
 }
 
 .search-box input {
-    border: 1px solid #ddd; /* Bordure fine */
+    border: 1px solid #ddd;
+    /* Bordure fine */
     outline: none;
     font-size: 1rem;
     padding: 10px;
@@ -120,21 +142,28 @@ header {
     background: #a47551;
 }
 
+
 /* Footer */
+
 .footer {
     padding: 20px 0;
-    background: transparent; /* Suppression du fond coloré */
-    color: #333; /* Couleur de texte sombre */
-    text-align: center; /* Centrage du texte */
+    background: transparent;
+    /* Suppression du fond coloré */
+    color: #333;
+    /* Couleur de texte sombre */
+    text-align: center;
+    /* Centrage du texte */
 }
 
 .copyright {
     font-size: 0.9rem;
-    color: #333; /* Couleur de texte sombre */
+    color: #333;
+    /* Couleur de texte sombre */
 }
 
 
 /* Registration Section */
+
 .registration-section {
     display: flex;
     justify-content: center;
@@ -198,4 +227,81 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+
+/* Search Results Styles */
+
+.search-results-container {
+    max-width: 1200px;
+    /* Increase width */
+    width: 90%;
+    /* Ensure responsiveness */
+    margin: 40px auto;
+    /* Add more margin for spacing */
+    padding: 30px;
+    /* Increase padding */
+}
+
+.annonces-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.annonce-item {
+    width: 100%;
+    /* Take full width */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    /* Use flexbox for image and details */
+    align-items: center;
+    /* Vertically align items */
+}
+
+.annonce-item img {
+    width: 250px;
+    /* Fixed width for the image */
+    height: auto;
+    object-fit: cover;
+    /* Maintain aspect ratio and cover the area */
+}
+
+.annonce-details {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center the text and button vertically */
+}
+
+.annonce-details h2,
+.annonce-details p {
+    margin: 5px 0;
+    /* Adjust spacing for better layout */
+}
+
+.annonce-details button {
+    display: inline-block;
+    /* Prevent full width */
+    padding: 6px 12px;
+    /* Smaller padding */
+    font-size: 0.9em;
+    /* Reduce font size */
+    border: none;
+    background-color: #b07232;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    /* Space below text */
+    text-align: center;
+}
+
+.annonce-details button:hover {
+    background-color: #915a26;
 }

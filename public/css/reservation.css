@@ -1,0 +1,135 @@
+/* General Styles */
+
+body {
+    padding-top: 80px;
+    font-family: Arial, sans-serif;
+    background-color: #f2ece0;
+    /* Light beige background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Reservation Container */
+
+.reservation-container {
+    max-width: 800px;
+    /* Set a maximum width */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    /* White background for the card */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Header */
+
+.reservation-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+/* Room Card */
+
+.room-card {
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+
+/* Room Image */
+
+.room-card img {
+    width: 300px;
+    /* Fixed width for the image */
+    height: auto;
+}
+
+
+/* Room Info */
+
+.room-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.room-info h2 {
+    font-size: 24px;
+    /* Title size */
+    margin: 0 0 10px 0;
+}
+
+.room-info p {
+    margin: 5px 0;
+}
+
+.room-info .price {
+    font-weight: bold;
+    font-size: 18px;
+    /* Adjusted price size */
+}
+
+
+/* Form Styles */
+
+.reservation-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    /* Block display for label */
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    /* Full width for inputs */
+}
+
+.btn-reserver {
+    padding: 10px;
+    background-color: #b67f41;
+    /* Green button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-reserver:hover {
+    background-color: #ab6b2a;
+    /* Darker green on hover */
+}
+
+
+/* Client Review Section */
+
+.client-review {
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.client-review h3 {
+    margin: 10px 0;
+    font-size: 18px;
+}

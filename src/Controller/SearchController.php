@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Reservation;
@@ -23,6 +24,8 @@ class SearchController extends AbstractController
 
         return $this->render('search/results.html.twig', [
             'annonces' => $annonces,
+            'arrival' => $arrival,
+            'departure' => $departure,
         ]);
     }
 
@@ -30,6 +33,9 @@ class SearchController extends AbstractController
     public function reservation(int $id, Request $request, AnnonceRepository $annonceRepository, EntityManagerInterface $entityManager): Response
     {
         $annonce = $annonceRepository->find($id);
+
+        $arrival = $request->query->get('arrival');
+        $departure = $request->query->get('departure');
 
         if ($request->isMethod('POST')) {
             // Check if the user is logged in
@@ -61,6 +67,8 @@ class SearchController extends AbstractController
 
         return $this->render('reservation/form.html.twig', [
             'annonce' => $annonce,
+            'arrival' => $arrival,
+            'departure' => $departure,
         ]);
     }
 }

@@ -1,16 +1,36 @@
+{# filepath: templates/search/results.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Résultats de recherche{% endblock %}
+{% block title %}Search Results{% endblock %}
 
 {% block body %}
-    <h1>Résultats de recherche</h1>
-    <ul>
-        {% for annonce in annonces %}
-            <li>
-                <a href="{{ path('app_reservation', {id: annonce.id}) }}">{{ annonce.titre }}</a>
-                - {{ annonce.ville }}
-                - {{ annonce.prix }}€
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="search-results-container">
+        <h1>Résultats de recherche</h1>
+
+        {% if annonces is empty %}
+            <p>No results found.</p>
+        {% else %}
+            <div class="annonces-list">
+                {% for annonce in annonces %}
+                    <div class="annonce-item">
+                        {% if annonce.images|length > 0 %}
+                            <img src="{{ asset('uploads/images/' ~ annonce.images|first.chemin) }}" alt="{{ annonce.titre }}">
+                        {% else %}
+                            <img src="{{ asset('images/default_image.png') }}" alt="Default Image">
+                        {% endif %}
+
+                        <div class="annonce-details">
+                            <h2>{{ annonce.titre }}</h2>
+                            <p>{{ annonce.description }}</p>
+                            <p><strong>Prix:</strong> {{ annonce.prix }} € / nuit</p>
+
+                            <a href="{{ path('app_reservation', {'id': annonce.id, 'arrival': app.request.get('arrival'), 'departure': app.request.get('departure')}) }}" class="btn-reserver">
+                                Consulter la chambre
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
