@@ -1,5 +1,4 @@
 <?php
-// filepath: src/Controller/SearchController.php
 namespace App\Controller;
 
 use App\Entity\Reservation;
@@ -46,14 +45,12 @@ class SearchController extends AbstractController
             $dateDebut = new \DateTime($request->request->get('date_debut'));
             $dateFin = new \DateTime($request->request->get('date_fin'));
 
-            // Create a new Reservation object
             $reservation = new Reservation();
             $reservation->setDateDebut($dateDebut);
             $reservation->setDateFin($dateFin);
             $reservation->setIdAnnonce($annonce);
             $reservation->setIdUtilisateur($user);
 
-            // Persist the reservation to the database
             $entityManager->persist($reservation);
             $entityManager->flush();
 
