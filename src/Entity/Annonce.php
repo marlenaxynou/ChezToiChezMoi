@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 class Annonce
@@ -37,7 +38,8 @@ class Annonce
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_creation = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)] // Changed to DATETIME_MUTABLE
+    #[Assert\NotBlank(message: "La date de disponibilité est obligatoire.")]
     private ?\DateTimeInterface $disponibilite = null;
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
@@ -162,11 +164,11 @@ class Annonce
     {
         return $this->disponibilite;
     }
-
+    
     public function setDisponibilite(\DateTimeInterface $disponibilite): static
     {
         $this->disponibilite = $disponibilite;
-
+    
         return $this;
     }
 

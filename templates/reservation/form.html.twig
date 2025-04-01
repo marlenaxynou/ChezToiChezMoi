@@ -1,4 +1,4 @@
-{# filepath: templates/reservation/form.html.twig #}
+{# filepath: /Users/marlenaxynou/ChezToiChezMoi/templates/reservation/form.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Réserver {{ annonce.titre }}{% endblock %}
@@ -21,13 +21,14 @@
                 </div>
             </div>
 
-            <p>Date d'arrivée: {{ arrival }}</p>
-            <p>Date de départ: {{ departure }}</p>
+            <p>Date d'arrivée: {{ arrival|date('Y-m-d') }}</p>
+            <p>Date de départ: {{ departure|date('Y-m-d') }}</p>
 
-            <form method="post" action="{{ path('app_reservation', {'id': annonce.id, 'arrival': arrival, 'departure': departure}) }}" class="reservation-form">
+            <form method="post" action="{{ path('app_reservation', {'id': annonce.id}) }}" class="reservation-form">
                 <input type="hidden" name="date_debut" value="{{ arrival }}">
                 <input type="hidden" name="date_fin" value="{{ departure }}">
-                <button type="submit" class="btn-reserver">Réserver</button>
+                <input type="hidden" name="destination" value="{{ app.request.get('destination') }}">
+                <button type="submit" class="btn-reserver">Confirmer la réservation</button>
             </form>
         </div>
     </main>

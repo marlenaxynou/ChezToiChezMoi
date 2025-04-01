@@ -6,8 +6,8 @@
     <p><strong>Prix :</strong> {{ annonce.prix }} € / nuit</p>
     <p><strong>Adresse :</strong> {{ annonce.adresse }}, {{ annonce.ville }}</p>
     <p><strong>Capacité :</strong> {{ annonce.getNbPersonne }} personnes</p>
-    <p><strong>Disponibilité :</strong> {{ annonce.disponibilite ? 'Disponible' : 'Non disponible' }}</p>
-    
+    <p><strong>Disponibilité :</strong> {{ annonce.disponibilite|date('Y-m-d')|default('Non spécifiée') }}</p>
+              
     {% if annonce.images|length > 0 %}
         <img src="{{ asset('uploads/images/' ~ annonce.images[0].chemin) }}" alt="Image de l'annonce">
     {% endif %}

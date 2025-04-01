@@ -1,4 +1,5 @@
 <?php
+// filepath: /Users/marlenaxynou/ChezToiChezMoi/src/Form/AnnonceType.php
 
 namespace App\Form;
 
@@ -16,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Validator\Constraints\All;
-
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class AnnonceType extends AbstractType
 {
@@ -42,9 +43,10 @@ class AnnonceType extends AbstractType
             ->add('nb_personne', IntegerType::class, [
                 'label' => 'Nombre de personnes'
             ])
-            ->add('disponibilite', DateTimeType::class, [
-                'label' => 'Disponibilité',
-                'widget' => 'single_text'
+            ->add('disponibilite', DateType::class, [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd', // Adjust format as needed
+                'label' => 'Disponible à partir du',
             ])
             ->add('images', FileType::class, [
                 'label' => 'Images',
@@ -52,7 +54,7 @@ class AnnonceType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'constraints' => [
-                    new All([ 
+                    new All([
                         new Image([
                             'maxSize' => '5M',
                             'mimeTypes' => ['image/jpeg', 'image/png'],
@@ -60,8 +62,7 @@ class AnnonceType extends AbstractType
                         ])
                     ])
                 ]
-                        ]);
-        
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

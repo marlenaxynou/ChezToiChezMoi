@@ -1,14 +1,12 @@
-{# filepath: templates/search/results.html.twig #}
+{# filepath: /Users/marlenaxynou/ChezToiChezMoi/templates/search/results.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Search Results{% endblock %}
 
 {% block body %}
     <div class="search-results-container">
-        <h1>Résultats de recherche</h1>
-
         {% if annonces is empty %}
-            <p>No results found.</p>
+            <p>Pas de résultats disponibles.</p>
         {% else %}
             <div class="annonces-list">
                 {% for annonce in annonces %}
@@ -24,8 +22,8 @@
                             <p>{{ annonce.description }}</p>
                             <p><strong>Prix:</strong> {{ annonce.prix }} € / nuit</p>
 
-                            <a href="{{ path('app_reservation', {'id': annonce.id, 'arrival': app.request.get('arrival'), 'departure': app.request.get('departure')}) }}" class="btn-reserver">
-                                Consulter la chambre
+                            <a href="{{ path('app_reservation', {'id': annonce.id, 'date_debut': arrival, 'date_fin': departure, 'destination': destination}) }}" class="btn-reserver">
+                                Réserver
                             </a>
                         </div>
                     </div>
