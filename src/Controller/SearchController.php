@@ -126,29 +126,30 @@ public function search(Request $request, AnnonceRepository $annonceRepository): 
     
             // Check for existing reservations
             $existingReservation = $reservationRepository->findExistingReservation($annonce, $dateDebut, $dateFin);
-    
+            
             if ($existingReservation) {
                 $this->addFlash('error', 'Ces dates sont déjà réservées. Veuillez choisir d\'autres dates.');
                 return $this->redirectToRoute('app_home'); // Or back to the reservation form
             }
-    
-            // Add a check for the number of persons
-            if ($persons > $annonce->getMaxPersons()) {
-                $this->addFlash('error', 'This accommodation cannot accommodate that many people.');
+
+            if ($persons > $annonce->getNbPersonne()) {
+                $this->addFlash('error', 'La capacité dhébergement ne peut pas accueillir autant de personnes.');
                 return $this->redirectToRoute('app_home');
             }
+
+            
     
             $reservation = new Reservation();
             $reservation->setDateDebut($dateDebut);
             $reservation->setDateFin($dateFin);
             $reservation->setIdAnnonce($annonce);
             $reservation->setIdUtilisateur($user);
-    
+
             $entityManager->persist($reservation);
             $entityManager->flush();
-    
+
             $this->addFlash('success', 'Votre réservation a été effectuée avec succès !');
-    
+
             return $this->redirectToRoute('app_home');
     }
 

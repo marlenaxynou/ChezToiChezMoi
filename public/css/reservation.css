@@ -133,3 +133,77 @@ body {
     margin: 10px 0;
     font-size: 18px;
 }
+
+.search-results-container {
+    max-width: 1200px;
+    /* Increase width */
+    width: 90%;
+    /* Ensure responsiveness */
+    margin: 40px auto;
+    /* Add more margin for spacing */
+    padding: 30px;
+    /* Increase padding */
+}
+
+.annonces-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.annonce-item {
+    width: 100%;
+    /* Take full width */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    /* Use flexbox for image and details */
+    align-items: center;
+    /* Vertically align items */
+}
+
+.annonce-item img {
+    width: 250px;
+    /* Fixed width for the image */
+    height: auto;
+    object-fit: cover;
+    /* Maintain aspect ratio and cover the area */
+}
+
+.annonce-details {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center the text and button vertically */
+}
+
+.annonce-details h2,
+.annonce-details p {
+    margin: 5px 0;
+    /* Adjust spacing for better layout */
+}
+
+.annonce-details button {
+    display: inline-block;
+    /* Prevent full width */
+    padding: 6px 12px;
+    /* Smaller padding */
+    font-size: 0.9em;
+    /* Reduce font size */
+    border: none;
+    background-color: #b07232;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    /* Space below text */
+    text-align: center;
+}
+
+.annonce-details button:hover {
+    background-color: #915a26;
+}
