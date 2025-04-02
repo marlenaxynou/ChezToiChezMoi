@@ -1,20 +1,28 @@
 <header>
     <nav class="navbar">
         <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo ChezToiChezMoi">
+            <a href="{{ path('app_home') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo ChezToiChezMoi">
+            </a>
         </div>
         <ul class="nav-links">
-            <li><a href="#">Accueil</a></li>
+            <li><a href="{{ path('app_home') }}">Accueil</a></li>
             <li><a href="#">Chambres</a></li>
-            <li><a href="#">À Propos</a></li>
+            <li><a href="{{ path('app_about') }}">À Propos</a></li>
             <li><a href="#">Contact</a></li>
 
             {% if app.user %}
-                <li>
-                    <i class="fas fa-user"></i> <span>{{ app.user.prenom }}</span>
+                <li class="user-menu">
+                    <a href="#" class="user-toggle" onclick="toggleUserMenu(event)">
+                        <i class="fas fa-user"></i> <span>{{ app.user.prenom }}</span>
+                    </a>
+                    <ul class="user-dropdown" id="userDropdown">
+                        <li><a href="#">Modifier mon profil</a></li>
+                        <li><a href="#">Voir mes réservations</a></li>
+                        <li><a href="#">Voir mes annonces</a></li>
+                        <li><a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a></li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a> 
             {% else %}
                 <li><a href="{{ path('app_login') }}">
                     <i class="fas fa-user"></i> Connexion
@@ -23,3 +31,21 @@
         </ul>
     </nav>
 </header>
+
+<script>
+    function toggleUserMenu(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Fermer le menu si on clique ailleurs
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('userDropdown');
+        const userToggle = document.querySelector('.user-toggle');
+        
+        if (!userToggle.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+</script>

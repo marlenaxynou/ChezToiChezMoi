@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - ChezToiChezMoi{% endblock %}
+
+{% block body %}
+<div class="contact-fullpage">
+    {# Colonne Formulaire #}
+    <div class="contact-form-container">
+        <div class="form-content">
+            <h1>Contactez-nous</h1>
+            <p class="form-subtitle">Votre avis nous intéresse</p>
+
+            {{ form_start(contactForm) }}
+                <div class="form-field">
+                    {{ form_widget(contactForm.name, {'attr': {'placeholder': 'Nom complet'}}) }}
+                </div>
+                
+                <div class="form-field">
+                    {{ form_widget(contactForm.email, {'attr': {'placeholder': 'Adresse email'}}) }}
+                </div>
+                
+                <div class="form-field">
+                    {{ form_widget(contactForm.subject, {'attr': {'placeholder': 'Sujet du message'}}) }}
+                </div>
+                
+                <div class="form-field">
+                    {{ form_widget(contactForm.message, {'attr': {'placeholder': 'Votre message...', 'rows': 6}}) }}
+                </div>
+                
+                <button type="submit" class="form-submit-btn">
+                    <i class="fas fa-paper-plane"></i> Envoyer
+                </button>
+            {{ form_end(contactForm) }}
+        </div>
+    </div>
+
+    {# Colonne Informations #}
+    <div class="contact-info-container">
+        <div class="info-content">
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="info-content">
+                    <h4 class="info-title">Adresse</h4>
+                    <p class="info-text">31 Rue Baudricourt<br>75013 Paris</p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="info-content">
+                    <h4 class="info-title">Téléphone</h4>
+                    <p class="info-text">+33 1 23 45 67 89<br>Lun-Ven: 9h30-17h00</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="info-content">
+                    <h4 class="info-title">Email</h4>
+                    <p class="info-text">contact@cheztotchezmoi.com</p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <h4 class="info-title">Réseaux sociaux</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

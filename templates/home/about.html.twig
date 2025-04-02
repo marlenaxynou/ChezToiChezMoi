@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À Propos - ChezToiChezMoi{% endblock %}
+
+{% block body %}
+<main class="about-page">
+    {# Section Hero #}
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1>À Propos de ChezToiChezMoi</h1>
+            <p>Votre voyage commence avec nous</p>
+        </div>
+    </section>
+
+    <div class="about-container">
+        {# Section Histoire #}
+        <section class="history-section">
+            <div class="section-header">
+                <h2>Notre histoire</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="history-content">
+                <p>Fondé en 2025, ChezToiChezMoi est une plateforme innovante de réservation d'hôtels qui révolutionne l'expérience des voyageurs. Notre mission est de simplifier la recherche et la réservation d'hébergements de qualité à travers le monde.</p>
+                <div class="history-stats">
+                    {% for stat in [
+                        { number: '18+', label: 'Années d\'expérience' },
+                        { number: '50K+', label: 'Hôtels partenaires' },
+                        { number: '10M+', label: 'Voyageurs satisfaits' }
+                    ] %}
+                        <div class="stat-item">
+                            <span class="stat-number">{{ stat.number }}</span>
+                            <span class="stat-label">{{ stat.label }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        {# Section Équipe #}
+        <section class="team-section">
+            <div class="section-header">
+                <h2>Notre équipe</h2>
+                <div class="divider"></div>
+                <p class="section-subtitle">Les talents derrière votre expérience unique</p>
+            </div>
+            <div class="team-grid">
+                {% for member in [
+                    { 
+                        name: 'Eleni Xynou', 
+                        role: 'Développeuse Fullstack', 
+                        image: 'eleni.jpeg',
+                        linkedin: 'https://www.linkedin.com/in/eleni-margarita-xynou-7514b01b6/',
+                        github: 'https://github.com/marlenaxynou'
+                    },
+                    { 
+                        name: 'Henry Gullavogui', 
+                        role: 'Développeur Fullstack', 
+                        image: 'henry.jpeg',
+                        linkedin: 'https://www.linkedin.com/in/henry-pamphil-guilavogui/',
+                        github: 'https://github.com/guila003'
+                    },
+                    { 
+                        name: 'Manal Oumill', 
+                        role: 'Développeuse Fullstack', 
+                        image: 'manal.jpeg',
+                        linkedin: 'https://www.linkedin.com/in/manaloumlil/',
+                        github: 'https://github.com/Manalle'
+                    },
+                    { 
+                        name: 'Alexandre Du', 
+                        role: 'Développeur Fullstack', 
+                        image: 'alex.jpg',
+                        linkedin: 'https://linkedin.com/in/alexandredu',
+                        github: 'https://github.com/Ahlexandre'
+                    }
+                ] %}
+                    <div class="team-card">
+                        <div class="team-photo" style="background-image: url('{{ asset('images/staff/' ~ member.image) }}')"></div>
+                        <h3>{{ member.name }}</h3>
+                        <p>{{ member.role }}</p>
+                        <div class="social-links">
+                            <a href="{{ member.linkedin }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="{{ member.github }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# Section Mission #}
+        <section class="mission-section">
+            <div class="mission-card">
+                <h2>Notre mission</h2>
+                <p>Transformer votre façon de réserver des hôtels en offrant transparence, simplicité et qualité, le tout dans une interface conviviale et moderne.</p>
+                <div class="mission-values">
+                    {% for value in [
+                        { icon: 'shield-alt', title: 'Transparence', text: 'Des informations claires et complètes' },
+                        { icon: 'bolt', title: 'Simplicité', text: 'Réservation en quelques clics' },
+                        { icon: 'star', title: 'Qualité', text: 'Hôtels soigneusement sélectionnés' }
+                    ] %}
+                        <div class="value-item">
+                            <i class="fas fa-{{ value.icon }}"></i>
+                            <h4>{{ value.title }}</h4>
+                            <p>{{ value.text }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}
