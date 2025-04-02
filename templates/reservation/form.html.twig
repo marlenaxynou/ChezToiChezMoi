@@ -18,25 +18,26 @@
                     <h2>{{ annonce.titre }}</h2>
                     <p>{{ annonce.description }}</p>
                     <p><strong>Prix :</strong> {{ annonce.prix }} € / nuit</p>
+                    <p><strong>Adresse :</strong> {{ annonce.adresse }}, {{ annonce.ville }}</p>
+                    <p><strong>Nombre de personnes :</strong> {{ annonce.nbPersonne }}</p>
                 </div>
             </div>
 
-            
             <p>Date d'arrivée: {{ arrival|date('Y-m-d') }}</p>
             <p>Date de départ: {{ departure|date('Y-m-d') }}</p>
-            
-            
-            <form method="post" action="{{ path('app_reservation_submit') }}" class="reservation-form">
-                <input type="hidden" name="annonce_id" value="{{ annonce.id }}">
-                <input type="hidden" name="date_debut" value="{{ arrivalString }}">
-                <input type="hidden" name="date_fin" value="{{ departureString }}">
-                <input type="hidden" name="persons" value="{{ app.session.get('reservation_data').persons }}">
+            <p>Nombre de personnes: {{ app.session.get('reservation_data').persons }}</p>
 
-                <button type="submit" class="btn btn-primary">Confirmer la réservation</button>
+            <form method="post" action="{{ path('app_reservation_submit') }}" class="reservation-form">
+                <input type="hidden" name="annonce_id" value="{{ annonce.id }}" class="form-control">
+                <input type="hidden" name="date_debut" value="{{ arrivalString }}" class="form-control">
+                <input type="hidden" name="date_fin" value="{{ departureString }}" class="form-control">
+                <input type="hidden" name="persons" value="{{ app.session.get('reservation_data').persons }}" class="form-control">
+
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Êtes-vous sûr de vouloir confirmer cette réservation ?')">Confirmer la réservation</button>
             </form>
-            
+
             <a href="{{ path('app_home') }}" class="btn btn-secondary">Annuler</a>
-            
+
         </div>
     </main>
 {% endblock %}

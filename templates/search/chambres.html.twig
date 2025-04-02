@@ -1,0 +1,45 @@
+{# filepath: /Users/marlenaxynou/ChezToiChezMoi/templates/search/chambres.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Chambres - ChezToiChezMoi{% endblock %}
+
+{% block body %}
+    <div class="chambres-page">
+        <div class="chambres-container">
+            <section class="section-header">
+                <h2>Nos Chambres</h2>
+                <div class="divider"></div>
+            </section>
+
+            <form method="get" action="{{ path('app_chambres') }}">
+                <div class="date-filter">
+                    <label for="date_debut">Date d'arrivée:</label>
+                    <input type="date" id="date_debut" name="date_debut" value="{{ app.request.query.get('date_debut') }}">
+
+                    <label for="date_fin">Date de départ:</label>
+                    <input type="date" id="date_fin" name="date_fin" value="{{ app.request.query.get('date_fin') }}">
+
+                    <button type="submit">Filtrer</button>
+                </div>
+            </form>
+
+            <div class="chambres-grid">
+                {% for annonce in annonces %}
+                    <div class="chambre-card">
+                        {% if not annonce.images.empty() %}
+                            <img src="{{ asset('uploads/images/' ~ annonce.images.first.chemin) }}" alt="Image de la chambre" class="chambre-image">
+                        {% else %}
+                            <img src="{{ asset('images/default_room.jpg') }}" alt="Image par défaut" class="chambre-image">
+                        {% endif %}
+                        <div class="chambre-details">
+                            <h2 class="chambre-title">{{ annonce.titre }}</h2>
+                            <p class="chambre-price">{{ annonce.prix }} €</p>
+                            <p class="chambre-description">{{ annonce.description }}</p>
+                            <a href="{{ path('app_reservation', {'id': annonce.id, 'date_debut': app.request.query.get('date_debut'), 'date_fin': app.request.query.get('date_fin')}) }}" class="btn-reserver">Réserver</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
