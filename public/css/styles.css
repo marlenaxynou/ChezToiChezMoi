@@ -795,12 +795,20 @@ a:hover {
     100% { transform: translateX(150%); }
 }
 
+.contact-page {
+    padding-top: 100px; /* Marge fixe sous la navbar */
+    min-height: 100vh;
+    background-color: #f8f5f1;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Structure pleine page */
 .contact-fullpage {
     display: flex;
-    min-height: 100vh;
+    min-height: 1000px;
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     font-family: 'Roboto', sans-serif;
 }
@@ -973,3 +981,4 @@ a:hover {
 }
 
 
+/* == ANONCE == */

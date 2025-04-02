@@ -1,16 +1,90 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Vos Annonces - ChezToiChezMoi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/annonce.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
 {% block body %}
-    <h1>Liste des annonces</h1>
-    <ul>
+<div class="annonce-list-container">
+    <div class="header-section">
+        <h1 class="main-title">VOS ANNONCES</h1>
+        
+        <a href="{{ path('annonce_create') }}" class="add-annonce-btn">
+            <i class="fas fa-plus"></i> Ajouter une annonce
+        </a>
+    </div>
+    
+    <div class="annonce-grid">
         {% for annonce in annonces %}
-            <li>
-                <a href="{{ path('annonce_read', { id: annonce.id }) }}">{{ annonce.titre }}</a> - {{ annonce.prix }}€
-                {% if app.user == annonce.idUtilisateur %}
-                    <a href="{{ path('annonce_edit', { id: annonce.id }) }}">Modifier</a>
-                    <a href="{{ path('annonce_delete', { id: annonce.id }) }}" onclick="return confirm('Êtes-vous sûr ?');">Supprimer</a>
+        <div class="annonce-card">
+            <div class="annonce-image-container">
+                {% if annonce.getImages()|length > 0 %}
+                <img src="{{ asset('uploads/images/' ~ annonce.getImages().first().getNom()) }}" 
+                     alt="{{ annonce.getTitre() }}" 
+                     class="annonce-image">
+                {% else %}
+                <img src="{{ asset('images/default-room.jpg') }}" 
+                     alt="Chambre par défaut" 
+                     class="annonce-image">
                 {% endif %}
-            </li>
+            </div>
+            
+            <div class="annonce-content">
+                <div class="annonce-header">
+                    <h2 class="annonce-title">{{ annonce.getTitre() }}</h2>
+                    <span class="annonce-price">{{ annonce.getPrix() }}€/nuit</span>
+                </div>
+                
+                <div class="annonce-details">
+                
+                    <p class="annonce-location">
+                        <i class="fas fa-map-marker-alt"></i> 
+                        {{ annonce.getVille() }}, {{ annonce.getAdresse() }}
+                    </p>
+
+                    
+                    <div class="annonce-availability">
+                        <i class="fas fa-calendar-alt"></i> 
+                        Disponible à partir du {{ annonce.getDisponibilite()|date('d/m/Y') }}
+                    </div>
+                    
+                    <div class="annonce-capacity">
+                        <i class="fas fa-user-friends"></i> 
+                        Max {{ annonce.getNbPersonne() }} personne{{ annonce.getNbPersonne() > 1 ? 's' : '' }}
+                    </div>
+                    
+                    <p class="annonce-description">
+                        {{ annonce.getDescription()|u.truncate(150, '...') }}
+                    </p>
+                    
+
+                </div>
+                
+                <div class="annonce-actions">
+                    <a href="{{ path('annonce_read', { id: annonce.getId() }) }}" class="details-btn">
+                        Voir détails
+                    </a>
+                    
+                    {% if app.user and app.user.id == annonce.getIdUtilisateur().getId() %}
+                    <div class="owner-actions">
+                        <a href="{{ path('annonce_edit', { id: annonce.getId() }) }}" class="edit-btn">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                        <a href="{{ path('annonce_delete', { id: annonce.getId() }) }}" 
+                           class="delete-btn"
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette annonce ?');">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
+</div>
 {% endblock %}

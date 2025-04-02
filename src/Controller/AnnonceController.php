@@ -60,7 +60,11 @@ class AnnonceController extends AbstractController
     public function list(EntityManagerInterface $em): Response
     {
         $annonces = $em->getRepository(Annonce::class)->findAll();
-        return $this->render('annonce/list.html.twig', ['annonces' => $annonces]);
+        
+        return $this->render('annonce/list.html.twig', [
+            'annonces' => $annonces,
+            'user' => $this->getUser()
+        ]);
     }
 
     #[Route('/annonce/{id}', name: 'annonce_read')]
