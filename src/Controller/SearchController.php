@@ -16,31 +16,38 @@ use App\Repository\ReservationRepository;
 
 class SearchController extends AbstractController
 {
-    #[Route('/search', name: 'app_search')]
-    public function search(Request $request, AnnonceRepository $annonceRepository): Response
-    {
-        $destination = $request->query->get('destination');
-        $arrival = $request->query->get('arrival');
-        $departure = $request->query->get('departure');
 
-        if (empty($destination)) {
-            $this->addFlash('error', 'Destination is required.');
-            return $this->redirectToRoute('app_home');
+#[Route('/search', name: 'app_search')]
+public function search(Request $request, AnnonceRepository $annonceRepository): Response
+    {
+            $destination = $request->query->get('destination');
+            $arrival = $request->query->get('arrival');
+            $departure = $request->query->get('departure');
+            $persons = $request->query->get('persons', 1); // Default to 1 person if not provided
+    
+            if (empty($destination)) {
+                $this->addFlash('error', 'Destination is required.');
+                return $this->redirectToRoute('app_home');
+            }
+    
+            $dateDebut = new \DateTime($arrival);
+            $dateFin = new \DateTime($departure);
+    
+            $annonces = $annonceRepository->findAvailableAnnonces($destination, $dateDebut, $dateFin, $persons);
+    
+            return $this->render('search/results.html.twig', [
+                'annonces' => $annonces,
+                'arrival' => $arrival,
+                'departure' => $departure,
+                'destination' => $destination,
+                'persons' => $persons, // Pass the number of persons to the template
+            ]);
         }
 
-        $dateDebut = new \DateTime($arrival);
-        $dateFin = new \DateTime($departure);
 
-        $annonces = $annonceRepository->findAvailableAnnonces($destination, $dateDebut, $dateFin);
 
-        return $this->render('search/results.html.twig', [
-            'annonces' => $annonces,
-            'arrival' => $arrival,
-            'departure' => $departure,
-            'destination' => $destination,
-        ]);
-    }
-
+   
+   
     #[Route('/reservation/{id}', name: 'app_reservation')]
     public function reservation(int $id, Request $request, AnnonceRepository $annonceRepository, SessionInterface $session): Response
     {
@@ -48,6 +55,7 @@ class SearchController extends AbstractController
         // Get arrival and departure dates from the request query parameters
         $arrival = $request->query->get('date_debut');
         $departure = $request->query->get('date_fin');
+        $persons = $request->query->get('persons', 1); // Default to 1 person if not provided
 
         try {
             $arrivalDate = new \DateTime($arrival);
@@ -67,6 +75,7 @@ class SearchController extends AbstractController
             'date_debut' => $arrivalString,
             'date_fin' => $departureString,
             'destination' => $request->query->get('destination'),
+            'persons' => $persons, // Store the number of persons in the session
         ];
         $session->set('reservation_data', $reservationData);
 
@@ -81,58 +90,70 @@ class SearchController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/reservation_submit', name: 'app_reservation_submit')]
     public function reservationSubmit(Request $request, AnnonceRepository $annonceRepository, EntityManagerInterface $entityManager, ?UserInterface $user, SessionInterface $session, ReservationRepository $reservationRepository): Response
+    
     {
-        // Debug: Check if the user is authenticated
-        if (!$user) {
-            dump('User is not authenticated!'); // Add this line
-            throw new AccessDeniedException('Vous devez être connecté pour effectuer une réservation.');
-        }
-
-        // Debug: Check if reservation data exists in the session
-        $reservationData = $session->get('reservation_data');
-        dump($reservationData); // Add this line - Check data before reservation
-
-        if (!$reservationData) {
-            $this->addFlash('error', 'Session expirée, veuillez réessayer.');
-            return $this->redirectToRoute('app_home'); // Add this line - Redirect if no session data
-        }
-
-        $session->remove('reservation_data'); // Remove the data after retrieving it
-
-        $annonce = $annonceRepository->find($reservationData['annonce_id']);
-
-        try {
-            $dateDebut = new \DateTime($reservationData['date_debut']);
-            $dateFin = new \DateTime($reservationData['date_fin']);
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'Invalid date format in session. Please try again.');
+            // Debug: Check if the user is authenticated
+            if (!$user) {
+                dump('User is not authenticated!'); // Add this line
+                throw new AccessDeniedException('Vous devez être connecté pour effectuer une réservation.');
+            }
+    
+            // Debug: Check if reservation data exists in the session
+            $reservationData = $session->get('reservation_data');
+            dump($reservationData); // Add this line - Check data before reservation
+    
+            if (!$reservationData) {
+                $this->addFlash('error', 'Session expirée, veuillez réessayer.');
+                return $this->redirectToRoute('app_home'); // Add this line - Redirect if no session data
+            }
+    
+            $session->remove('reservation_data'); // Remove the data after retrieving it
+    
+            $annonce = $annonceRepository->find($reservationData['annonce_id']);
+            $persons = $reservationData['persons']; // Retrieve the number of persons from the session
+    
+            try {
+                $dateDebut = new \DateTime($reservationData['date_debut']);
+                $dateFin = new \DateTime($reservationData['date_fin']);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Invalid date format in session. Please try again.');
+                return $this->redirectToRoute('app_home');
+            }
+    
+            // Check for existing reservations
+            $existingReservation = $reservationRepository->findExistingReservation($annonce, $dateDebut, $dateFin);
+    
+            if ($existingReservation) {
+                $this->addFlash('error', 'Ces dates sont déjà réservées. Veuillez choisir d\'autres dates.');
+                return $this->redirectToRoute('app_home'); // Or back to the reservation form
+            }
+    
+            // Add a check for the number of persons
+            if ($persons > $annonce->getMaxPersons()) {
+                $this->addFlash('error', 'This accommodation cannot accommodate that many people.');
+                return $this->redirectToRoute('app_home');
+            }
+    
+            $reservation = new Reservation();
+            $reservation->setDateDebut($dateDebut);
+            $reservation->setDateFin($dateFin);
+            $reservation->setIdAnnonce($annonce);
+            $reservation->setIdUtilisateur($user);
+    
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'Votre réservation a été effectuée avec succès !');
+    
             return $this->redirectToRoute('app_home');
-        }
-
-        // Check for existing reservations
-        $existingReservation = $reservationRepository->findExistingReservation($annonce, $dateDebut, $dateFin);
-
-        if ($existingReservation) {
-            $this->addFlash('error', 'Ces dates sont déjà réservées. Veuillez choisir d\'autres dates.');
-            return $this->redirectToRoute('app_home'); // Or back to the reservation form
-        }
-
-        $reservation = new Reservation();
-        $reservation->setDateDebut($dateDebut);
-        $reservation->setDateFin($dateFin);
-        $reservation->setIdAnnonce($annonce);
-        $reservation->setIdUtilisateur($user);
-
-        $entityManager->persist($reservation);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Votre réservation a été effectuée avec succès !');
-
-        return $this->redirectToRoute('app_home');
     }
 
+
+    
     #[Route('/login_success', name: 'app_login_success')]
     public function loginSuccess(SessionInterface $session): Response
     {

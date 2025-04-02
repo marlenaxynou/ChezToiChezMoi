@@ -22,7 +22,7 @@
                             <p>{{ annonce.description }}</p>
                             <p><strong>Prix:</strong> {{ annonce.prix }} € / nuit</p>
 
-                            <a href="{{ path('app_reservation', {'id': annonce.id, 'date_debut': arrival, 'date_fin': departure, 'destination': destination}) }}" class="btn-reserver">
+                            <a href="{{ path('app_reservation', {'id': annonce.id, 'date_debut': arrival, 'date_fin': departure, 'destination': destination, 'persons': persons}) }}">
                                 Réserver
                             </a>
                         </div>

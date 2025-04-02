@@ -30,6 +30,7 @@
                 <input type="hidden" name="annonce_id" value="{{ annonce.id }}">
                 <input type="hidden" name="date_debut" value="{{ arrivalString }}">
                 <input type="hidden" name="date_fin" value="{{ departureString }}">
+                <input type="hidden" name="persons" value="{{ app.session.get('reservation_data').persons }}">
 
                 <button type="submit" class="btn btn-primary">Confirmer la réservation</button>
             </form>
