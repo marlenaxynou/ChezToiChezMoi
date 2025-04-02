@@ -27,26 +27,25 @@ class AnnonceRepository extends ServiceEntityRepository
     public function findAvailableAnnonces(string $destination, \DateTimeInterface $dateDebut, \DateTimeInterface $dateFin): array
     {
         $qb = $this->createQueryBuilder('a');
-    
+
         $qb->where('a.ville = :destination')
-           ->setParameter('destination', $destination)
-           ->andWhere('a.disponibilite <= :dateDebut') // Corrected field name
-           ->setParameter('dateDebut', $dateDebut)
-           ->leftJoin('a.reservations', 'r')
-           ->andWhere(
-               $qb->expr()->orX(
-                   $qb->expr()->isNull('r.id'), // No reservations
-                   $qb->expr()->not(
-                       $qb->expr()->andX(
-                           $qb->expr()->lte('r.date_debut', ':dateFin'),
-                           $qb->expr()->gte('r.date_fin', ':dateDebut')
-                       )
-                   )
-               )
-           )
-           ->setParameter('dateDebut', $dateDebut)
-           ->setParameter('dateFin', $dateFin);
-    
+        ->setParameter('destination', $destination)
+        ->leftJoin('a.reservations', 'r')
+        ->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->isNull('r.id'), // No reservations exist
+                $qb->expr()->not(
+                    $qb->expr()->andX(
+                        $qb->expr()->lt('r.date_fin', ':dateDebut'), // Existing reservation ends before the new start date
+                        $qb->expr()->gt('r.date_debut', ':dateFin')  // Existing reservation starts after the new end date
+                    )
+                )
+            )
+        )
+        ->setParameter('dateDebut', $dateDebut)
+        ->setParameter('dateFin', $dateFin);
+
         return $qb->getQuery()->getResult();
     }
+
 }

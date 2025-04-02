@@ -18,9 +18,13 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
+            form_login:
+                default_target_path: app_login_success
+                check_path: app_login
             logout:
                 path: app_logout
                 target: app_home
+            entry_point: App\Security\LoginFormAuthenticator
 
     access_control:
         - { path: ^/annonce/create, roles: IS_AUTHENTICATED_FULLY }

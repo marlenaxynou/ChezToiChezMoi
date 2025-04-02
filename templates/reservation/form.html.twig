@@ -21,15 +21,21 @@
                 </div>
             </div>
 
+            
             <p>Date d'arrivée: {{ arrival|date('Y-m-d') }}</p>
             <p>Date de départ: {{ departure|date('Y-m-d') }}</p>
+            
+            
+            <form method="post" action="{{ path('app_reservation_submit') }}" class="reservation-form">
+                <input type="hidden" name="annonce_id" value="{{ annonce.id }}">
+                <input type="hidden" name="date_debut" value="{{ arrivalString }}">
+                <input type="hidden" name="date_fin" value="{{ departureString }}">
 
-            <form method="post" action="{{ path('app_reservation', {'id': annonce.id}) }}" class="reservation-form">
-                <input type="hidden" name="date_debut" value="{{ arrival }}">
-                <input type="hidden" name="date_fin" value="{{ departure }}">
-                <input type="hidden" name="destination" value="{{ app.request.get('destination') }}">
-                <button type="submit" class="btn-reserver">Confirmer la réservation</button>
+                <button type="submit" class="btn btn-primary">Confirmer la réservation</button>
             </form>
+            
+            <a href="{{ path('app_home') }}" class="btn btn-secondary">Annuler</a>
+            
         </div>
     </main>
 {% endblock %}
