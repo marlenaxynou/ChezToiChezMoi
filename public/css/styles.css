@@ -1659,3 +1659,83 @@ a:hover {
 .account-page strong {
     font-weight: bold;
 }
+
+
+/* General Form Controls */
+
+.editprofile-page {
+    padding-top: 100px;
+    /* Adjust this value as needed */
+    background-color: #f8f5f1;
+    min-height: 100vh;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #c7b9a5;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    color: #333;
+    background-color: #fff;
+    border-color: #a67c52;
+    outline: none;
+    box-shadow: 0 0 8px rgba(166, 124, 82, 0.4);
+}
+
+
+/* Primary Button */
+
+.btn-primary {
+    color: #fff;
+    background-color: #8B5E3B;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #754c29;
+    box-shadow: 0 4px 8px rgba(139, 94, 59, 0.3);
+}
+
+
+/* Secondary Button */
+
+.btn-secondary {
+    color: #fff;
+    background-color: #a67c52;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-secondary:hover {
+    background-color: #8b5e3b;
+    box-shadow: 0 4px 8px rgba(166, 124, 82, 0.3);
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    /* Space between buttons */
+    margin-top: 15px;
+    /* Add some space above */
+}
