@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    body {
+        background-color: #f4ede3;
+        font-family: Arial, sans-serif;
+    }
+
+    .avis-container {
+        margin-top: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .avis-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 40px;
+        color: #8c5c10;
+        text-align: center;
+    }
+
+    .avis-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 25px 35px;
+        margin-bottom: 30px;
+        width: 350px;
+        text-align: left;
+    }
+
+    .avis-author {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .avis-role {
+        color: #00aa6c;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .avis-stars {
+        color: #8c5c10;
+        font-size: 20px;
+    }
+
+    .avis-note {
+        font-weight: bold;
+        margin-left: 10px;
+        font-size: 16px;
+        color: #444;
+    }
+
+    .avis-commentaire {
+        margin-top: 15px;
+        background-color: #f7f7f7;
+        padding: 12px;
+        border-radius: 5px;
+        font-size: 15px;
+        color: #333;
+    }
+
+    .avis-date {
+        margin-top: 15px;
+        font-style: italic;
+        color: #777;
+        font-size: 13px;
+    }
+
+    .avis-form {
+        background-color: #fff9e6;
+        border-radius: 10px;
+        padding: 30px;
+        width: 450px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .avis-form h4 {
+        font-weight: bold;
+        color: #8c5c10;
+        margin-bottom: 25px;
+    }
+
+    .avis-form select,
+    .avis-form textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+
+    .avis-form button {
+        background-color: #8c5c10;
+        color: white;
+        padding: 10px 30px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .avis-form button:hover {
+        background-color: #6b440c;
+    }
+</style>
+
+<div class="avis-container">
+    <h2 class="avis-title">Avis des utilisateurs</h2>
+
+    {% for avis in annonce.avis %}
+        <div class="avis-card">
+            <div class="avis-author">{{ avis.idUtilisateur.email|split('@')[0]|capitalize }}</div>
+            <div class="avis-role">Reviewer</div>
+            <div class="avis-stars">
+                {% for i in 1..avis.note %}
+                    ★
+                {% endfor %}
+                {% for i in (avis.note + 1)..5 %}
+                    ☆
+                {% endfor %}
+                <span class="avis-note">{{ avis.note }}/5</span>
+            </div>
+            <div class="avis-commentaire">{{ avis.commentaire }}</div>
+            <div class="avis-date">{{ avis.dateAvis|date('d/m/Y') }}</div>
+        </div>
+    {% else %}
+        <p>Aucun avis pour le moment.</p>
+    {% endfor %}
+
+    <div class="avis-form mt-5">
+        <h4>Laisser un avis</h4>
+        {% if app.user %}
+            {{ form_start(form) }}
+                {{ form_row(form.note) }}
+                {{ form_row(form.commentaire) }}
+                <button>Envoyer</button>
+            {{ form_end(form) }}
+        {% else %}
+            <p>Vous devez être connecté pour laisser un avis.</p>
+            <a href="{{ path('app_login') }}">Se connecter</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
