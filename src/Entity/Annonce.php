@@ -41,7 +41,8 @@ class Annonce
     private ?\DateTimeInterface $disponibilite = null;
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "id_utilisateur", referencedColumnName: "id", nullable: false)]
+
     private ?Utilisateur $id_utilisateur = null;
 
     /**

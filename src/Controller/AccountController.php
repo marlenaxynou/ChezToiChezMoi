@@ -12,8 +12,11 @@ class AccountController extends AbstractController
 {
     #[Route('/compte', name: 'app_compte')]
     #[IsGranted('ROLE_USER')]
-    public function index(Utilisateur $user): Response
+    public function index(): Response
     {
+        /** @var Utilisateur $user */
+        $user = $this->getUser();
+
         $annonces = $user->getAnnonces();
         $reservations = $user->getReservations();
 

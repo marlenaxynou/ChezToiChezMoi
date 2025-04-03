@@ -32,7 +32,11 @@
             {% for reservation in reservations %}
                 <li>
                     Du {{ reservation.dateDebut|date('d/m/Y') }} au {{ reservation.dateFin|date('d/m/Y') }}
-                    ({{ reservation.idAnnonce.titre }})
+                    {% if reservation.idAnnonce is not null %}
+                        ({{ reservation.idAnnonce.titre }})
+                    {% else %}
+                        (Annonce inconnue)
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
