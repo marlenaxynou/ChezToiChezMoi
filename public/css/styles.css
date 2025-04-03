@@ -1620,3 +1620,42 @@ a:hover {
         border-bottom: 1px solid #eee;
     }
 }
+
+.account-page {
+    padding-top: 100px;
+    /* Adjust this value as needed */
+    background-color: #f8f5f1;
+    min-height: 100vh;
+}
+
+.account-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.account-page h1 {
+    color: #8B5E3B;
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.account-page h3 {
+    color: #beac75;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.account-page ul {
+    list-style: none;
+    padding: 0;
+}
+
+.account-page li {
+    margin-bottom: 10px;
+}
+
+.account-page strong {
+    font-weight: bold;
+}

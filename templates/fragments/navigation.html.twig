@@ -17,8 +17,8 @@
                         <i class="fas fa-user"></i> <span>{{ app.user.prenom }}</span>
                     </a>
                     <ul class="user-dropdown" id="userDropdown">
-                        <li><a href="#">Modifier mon profil</a></li>
-                        <li><a href="#">Voir mes réservations</a></li>
+                        <li><a href="{{ path('app_compte') }}">Consulter mon profil</a></li>
+                        <li><a href="{{ path('reservation_list') }}">Voir mes réservations</a></li>
                         <li><a href="{{ path('annonce_list') }}">Voir mes annonces</a></li>
                         <li><a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a></li>
                     </ul>
