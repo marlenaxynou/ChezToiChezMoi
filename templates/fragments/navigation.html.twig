@@ -1,10 +1,9 @@
-<header class="{% if app.request.get('_route') == 'app_home' %}no-background{% endif %}">
+<header>
     <nav class="navbar">
         <div class="logo">
             <a href="{{ path('app_home') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo ChezToiChezMoi">
             </a>
-           
         </div>
         <ul class="nav-links">
             <li><a href="{{ path('app_home') }}">Accueil</a></li>
@@ -24,15 +23,10 @@
                         <li><a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a> 
-                </li>
             {% else %}
-                <li>
-                    <a href="{{ path('app_login') }}">
-                        <i class="fas fa-user"></i> Connexion
-                    </a>
-                </li>
+                <li><a href="{{ path('app_login') }}">
+                    <i class="fas fa-user"></i> Connexion
+                </a></li>
             {% endif %}
         </ul>
     </nav>
