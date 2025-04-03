@@ -3,86 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activation de votre compte</title>
+    <title>Activation de votre compte ChezToiChezMoi</title>
     <style>
-        html, body {
-            height: 100%;
+        body {
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            background-color: #f8f5f1;
-            font-family: Arial, sans-serif;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin: 30px;
-        }
-
-        .logo img {
-            height: 100px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #8B5E3B;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 1.1rem;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
             color: #333;
-            margin-bottom: 15px;
+            background-color: #f8f5f1;
         }
-
-        a {
-            text-decoration: none;
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .logo {
+            max-width: 150px;
+            height: auto;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        h1 {
             color: #8B5E3B;
+            font-size: 24px;
+            margin-top: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #8B5E3B;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 4px;
             font-weight: bold;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
+            margin: 20px 0;
         }
-
-        a:hover {
-            color: #a47551;
+        
+        .btn:hover {
+            background-color: #a47551;
         }
-
+        
         .footer {
             text-align: center;
-            margin-top: 30px;
+            padding: 20px;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #eaeaea;
+            margin-top: 20px;
         }
-
-        .footer p {
-            font-size: 0.9rem;
-            color: #333;
+        
+        .signature {
+            margin-top: 30px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-
-    <div class="main-content">
-        <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="ChezToiChezMoi Logo">
+    <div class="email-container">
+        <div class="header">
+            <img src="images/logo.png" alt="ChezToiChezMoi" class="logo">
         </div>
-
-        <h1>Activation de votre compte ChezToiChezMoi</h1>
-
-        <p>Bonjour {{ user.prenom }},</p>
-
-        <p>Pour activer votre compte, veuillez cliquer sur le lien suivant :</p>
-
-        <p><a href="{{ absolute_url(path('app_verify_user', {token : token})) }}">Activer mon compte</a></p>
-
-        <p>A bientôt sur ChezToiChezMoi !</p>
+        
+        <div class="content">
+            <h1>Activation de votre compte</h1>
+            
+            <p>Bonjour {{ user.prenom }},</p>
+            
+            <p>Merci de vous être inscrit(e) sur ChezToiChezMoi. Pour finaliser votre inscription et activer votre compte, veuillez cliquer sur le bouton ci-dessous :</p>
+            
+            <p style="text-align: center;">
+                <a href="{{ absolute_url(path('app_verify_user', {token : token})) }}" class="btn">
+                    Activer mon compte
+                </a>
+            </p>
+            
+            <p>Si le bouton ne fonctionne pas, copiez-collez ce lien dans votre navigateur :</p>
+            <p style="word-break: break-all; font-size: 12px; color: #666;">
+                {{ absolute_url(path('app_verify_user', {token : token})) }}
+            </p>
+            
+            <div class="signature">
+                <p>A bientôt sur ChezToiChezMoi !</p>
+                <p>L'équipe ChezToiChezMoi</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© {{ "now"|date("Y") }} ChezToiChezMoi - Tous droits réservés</p>
+            <p>Si vous n'êtes pas à l'origine de cette demande, veuillez ignorer cet email.</p>
+        </div>
     </div>
-
-    <div class="footer">
-        <p>ChezToiChezMoi - Tous droits réservés</p>
-    </div>
-
 </body>
 </html>

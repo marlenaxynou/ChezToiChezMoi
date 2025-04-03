@@ -85,29 +85,39 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verif/{token}', name: 'app_verify_user')]
-    public function verifUser($token, JWTService $jwt, UtilisateurRepository $utilisateurRepository, EntityManagerInterface $entityManager) : Response
-    {
-        //On vérifie que le token est valide
-        if(!$jwt->isValid($token) && !$jwt->isExpired($token) && !$jwt->check($token, $this->getParameter('app.jwt_secret'))){
-            throw $this->createNotFoundException('Token invalide');
-            //Le Token est valide
-
-            //On récupère le Payload
-            $payload = $jwt->getPayload($token);
-
-            //On récupère l'utilisateur
-            $user = $utilisateurRepository->find($payload['id']);
-
-            //On vérifie que l'utilisateur existe et qu'il n'est pas déjà vérifié
-            if($user && !$user->isVerified){
-                $user->setVerified(true);
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Votre compte est maintenant activé');
-                return $this->redirectToRoute('app_home');
-            }
+    public function verifUser(
+        $token, 
+        JWTService $jwt, 
+        UtilisateurRepository $utilisateurRepository, 
+        EntityManagerInterface $entityManager
+    ): Response {
+        // Vérification que le token est valide, non expiré et correctement signé
+        if(!$jwt->isValid($token) || $jwt->isExpired($token) || !$jwt->check($token, $this->getParameter('app.jwt_secret'))) {
+            $this->addFlash('danger', 'Le lien d\'activation est invalide ou a expiré');
+            return $this->redirectToRoute('app_login');
         }
-        $this->addFlash('danger', 'Token invalide ou expiré');
-        return $this->redirectToRoute('app_home');
+    
+        // Le token est valide - récupération du payload
+        $payload = $jwt->getPayload($token);
+        $user = $utilisateurRepository->find($payload['id']);
+    
+        // Vérification que l'utilisateur existe
+        if(!$user) {
+            $this->addFlash('danger', 'Utilisateur non trouvé');
+            return $this->redirectToRoute('app_register');
+        }
+    
+        // Vérification que le compte n'est pas déjà activé
+        if($user->isVerified()) {
+            $this->addFlash('warning', 'Votre compte est déjà activé');
+            return $this->redirectToRoute('app_login');
+        }
+    
+        // Activation du compte
+        $user->setVerified(true);
+        $entityManager->flush();
+    
+        $this->addFlash('success', 'Votre compte a été activé avec succès ! Vous pouvez maintenant vous connecter.');
+        return $this->redirectToRoute('app_login');
     }
 }
