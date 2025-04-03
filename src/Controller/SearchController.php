@@ -164,7 +164,8 @@ public function search(Request $request, AnnonceRepository $annonceRepository): 
 
         $this->addFlash('success', 'Votre réservation a été effectuée avec succès !');
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('reservation_list');
+
     }
 
     
