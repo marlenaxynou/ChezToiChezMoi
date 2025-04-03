@@ -1,3 +1,4 @@
+{# filepath: /Users/marlenaxynou/ChezToiChezMoi/templates/annonce/list.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Vos Annonces - ChezToiChezMoi{% endblock %}
@@ -23,7 +24,7 @@
         <div class="annonce-card">
             <div class="annonce-image-container">
                 {% if annonce.getImages()|length > 0 %}
-                <img src="{{ asset('uploads/images/' ~ annonce.getImages().first().getNom()) }}" 
+                <img src="{{ asset('uploads/images/' ~ annonce.getImages().first().getChemin()) }}" 
                      alt="{{ annonce.getTitre() }}" 
                      class="annonce-image">
                 {% else %}

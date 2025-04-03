@@ -1,16 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Résultats de recherche{% endblock %}
+{% block title %}Résultats de recherche - ChezToiChezMoi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Résultats de recherche</h1>
-    <ul>
-        {% for annonce in annonces %}
-            <li>
-                <a href="{{ path('app_reservation', {id: annonce.id}) }}">{{ annonce.titre }}</a>
-                - {{ annonce.ville }}
-                - {{ annonce.prix }}€
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="chambres-page">
+        <div class="chambres-container">
+            <section class="section-header">
+                <h2>Résultats de recherche</h2>
+                <div class="divider"></div>
+                <p>{{ annonces|length }} chambre(s) disponible(s)</p>
+            </section>
+
+            <div class="search-filters">
+                <div class="filter-row">
+                    <div class="filter-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Du {{ arrival|date('d/m/Y') }} au {{ departure|date('d/m/Y') }}</span>
+                    </div>
+                    
+                    <div class="filter-item">
+                        <i class="fas fa-user-friends"></i>
+                        <span>{{ persons }} personne(s)</span>
+                    </div>
+                    
+                    {% if destination %}
+                    <div class="filter-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ destination }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="chambres-grid">
+                {% if annonces is empty %}
+                    <div class="no-results">
+                        <p>Aucune chambre ne correspond à vos critères.</p>
+                        <a href="{{ path('app_home') }}" class="btn-reserver">
+                            <i class="fas fa-arrow-left"></i> Retour à la recherche
+                        </a>
+                    </div>
+                {% else %}
+                    {% for annonce in annonces %}
+                        <div class="chambre-card">
+                            {% if not annonce.images.empty() %}
+                                <img src="{{ asset('uploads/images/' ~ annonce.images.first.chemin) }}" alt="{{ annonce.titre }}" class="chambre-image">
+                            {% else %}
+                                <img src="{{ asset('images/default_room.jpg') }}" alt="Chambre par défaut" class="chambre-image">
+                            {% endif %}
+                            <div class="chambre-details">
+                                <h2 class="chambre-title">{{ annonce.titre }}</h2>
+                                <p class="chambre-price">{{ annonce.prix }} € / nuit</p>
+                                <p class="chambre-description">{{ annonce.description|u.truncate(120, '...') }}</p>
+                                <a href="{{ path('app_reservation', {
+                                    'id': annonce.id,
+                                    'date_debut': arrival,
+                                    'date_fin': departure,
+                                    'destination': destination,
+                                    'persons': persons
+                                }) }}" class="btn-reserver">Réserver</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

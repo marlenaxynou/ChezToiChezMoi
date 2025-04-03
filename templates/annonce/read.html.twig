@@ -15,13 +15,13 @@
         <div class="gallery-content">
             {% if annonce.images|length > 0 %}
                 <div class="main-image">
-                    <img src="{{ asset('annonce.images[0].chemin) }}" alt="{{ annonce.titre }}">
+                    <img src="{{ asset('uploads/images/' ~ annonce.images[0].chemin) }}" alt="{{ annonce.titre }}">
                 </div>
                 {% if annonce.images|length > 1 %}
                 <div class="thumbnail-grid">
                     {% for image in annonce.images %}
                     <div class="thumbnail">
-                        <img src="{{ asset('image.chemin) }}" alt="Image {{ loop.index }}">
+                        <img src="{{ asset('uploads/images/' ~ image.chemi) }}" alt="Image {{ loop.index }}">
                     </div>
                     {% endfor %}
                 </div>

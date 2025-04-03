@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Repository\UtilisateurRepository;
-use App\Security\UserAuthenticator;
+use App\Security\LoginFormAuthenticator;
 use App\Service\SendEmailService;
 use App\Service\JWTService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -76,7 +76,7 @@ class RegistrationController extends AbstractController
             
             $this->addFlash('success', 'Votre compte a bien été créé, un email vous a été envoyé pour activer votre compte');
 
-            return $security->login($user, UserAuthenticator::class, 'main');
+            return $security->login($user, LoginFormAuthenticator::class, 'main');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -91,29 +91,24 @@ class RegistrationController extends AbstractController
         UtilisateurRepository $utilisateurRepository, 
         EntityManagerInterface $entityManager
     ): Response {
-        // Vérification que le token est valide, non expiré et correctement signé
         if(!$jwt->isValid($token) || $jwt->isExpired($token) || !$jwt->check($token, $this->getParameter('app.jwt_secret'))) {
             $this->addFlash('danger', 'Le lien d\'activation est invalide ou a expiré');
             return $this->redirectToRoute('app_login');
         }
     
-        // Le token est valide - récupération du payload
         $payload = $jwt->getPayload($token);
         $user = $utilisateurRepository->find($payload['id']);
     
-        // Vérification que l'utilisateur existe
         if(!$user) {
             $this->addFlash('danger', 'Utilisateur non trouvé');
             return $this->redirectToRoute('app_register');
         }
     
-        // Vérification que le compte n'est pas déjà activé
         if($user->isVerified()) {
             $this->addFlash('warning', 'Votre compte est déjà activé');
             return $this->redirectToRoute('app_login');
         }
-    
-        // Activation du compte
+
         $user->setVerified(true);
         $entityManager->flush();
     

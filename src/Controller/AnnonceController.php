@@ -113,11 +113,15 @@ class AnnonceController extends AbstractController
         if ($this->getUser() !== $annonce->getIdUtilisateur()) {
             throw $this->createAccessDeniedException("Vous n'avez pas la permission de supprimer cette annonce.");
         }
+        foreach ($annonce->getReservations() as $reservation) {
+            $em->remove($reservation);
+        }
         
         foreach ($annonce->getImages() as $image) {
             $annonce->removeImage($image);
             $em->remove($image);
         }
+
     
         $em->remove($annonce);
         $em->flush();

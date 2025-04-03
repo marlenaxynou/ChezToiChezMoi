@@ -7,13 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 class Annonce
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]// Ensure type is explicitly set to integer)
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
@@ -38,6 +39,7 @@ class Annonce
     private ?\DateTimeInterface $date_creation = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de disponibilité est obligatoire.")]
     private ?\DateTimeInterface $disponibilite = null;
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
@@ -79,7 +81,7 @@ class Annonce
         return $this->titre;
     }
 
-    public function setTitre(string $titre): static
+    public function setTitre(string $titre): self
     {
         $this->titre = $titre;
 
@@ -91,7 +93,7 @@ class Annonce
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -103,7 +105,7 @@ class Annonce
         return $this->prix;
     }
 
-    public function setPrix(int $prix): static
+    public function setPrix(int $prix): self
     {
         $this->prix = $prix;
 
@@ -115,7 +117,7 @@ class Annonce
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
 
@@ -127,7 +129,7 @@ class Annonce
         return $this->ville;
     }
 
-    public function setVille(string $ville): static
+    public function setVille(string $ville): self
     {
         $this->ville = $ville;
 
@@ -139,7 +141,7 @@ class Annonce
         return $this->nb_personne;
     }
 
-    public function setNbPersonne(int $nb_personne): static
+    public function setNbPersonne(int $nb_personne): self
     {
         $this->nb_personne = $nb_personne;
 
@@ -151,7 +153,7 @@ class Annonce
         return $this->date_creation;
     }
 
-    public function setDateCreation(\DateTimeInterface $date_creation): static
+    public function setDateCreation(\DateTimeInterface $date_creation): self
     {
         $this->date_creation = $date_creation;
 
@@ -163,7 +165,7 @@ class Annonce
         return $this->disponibilite;
     }
 
-    public function setDisponibilite(\DateTimeInterface $disponibilite): static
+    public function setDisponibilite(\DateTimeInterface $disponibilite): self
     {
         $this->disponibilite = $disponibilite;
 
@@ -175,7 +177,7 @@ class Annonce
         return $this->id_utilisateur;
     }
 
-    public function setIdUtilisateur(?Utilisateur $id_utilisateur): static
+    public function setIdUtilisateur(?Utilisateur $id_utilisateur): self
     {
         $this->id_utilisateur = $id_utilisateur;
 
@@ -190,7 +192,7 @@ class Annonce
         return $this->reservations;
     }
 
-    public function addReservation(Reservation $reservation): static
+    public function addReservation(Reservation $reservation): self
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
@@ -200,7 +202,7 @@ class Annonce
         return $this;
     }
 
-    public function removeReservation(Reservation $reservation): static
+    public function removeReservation(Reservation $reservation): self
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
@@ -220,7 +222,7 @@ class Annonce
         return $this->avis;
     }
 
-    public function addAvi(Avis $avi): static
+    public function addAvi(Avis $avi): self
     {
         if (!$this->avis->contains($avi)) {
             $this->avis->add($avi);
@@ -230,7 +232,7 @@ class Annonce
         return $this;
     }
 
-    public function removeAvi(Avis $avi): static
+    public function removeAvi(Avis $avi): self
     {
         if ($this->avis->removeElement($avi)) {
             // set the owning side to null (unless already changed)
@@ -250,7 +252,7 @@ class Annonce
         return $this->images;
     }
 
-    public function addImage(Image $image): static
+    public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images->add($image);
@@ -260,7 +262,7 @@ class Annonce
         return $this;
     }
 
-    public function removeImage(Image $image): static
+    public function removeImage(Image $image): self
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
