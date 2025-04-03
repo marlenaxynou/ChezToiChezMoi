@@ -1,0 +1,275 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma réservation - {{ reservation.idAnnonce.titre }} - ChezToiChezMoi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Style général */
+        .reservation-detail-page {
+            padding: 5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #f8f5f1;
+            min-height: 100vh;
+        }
+        
+        /* Conteneur principal */
+        .reservation-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid rgba(190, 172, 117, 0.2);
+        }
+        
+        /* En-tête */
+        .reservation-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, #f9f7f4 0%, #e8e1d3 100%);
+            border-bottom: 1px solid rgba(190, 172, 117, 0.2);
+            text-align: center;
+        }
+        
+        .reservation-header h1 {
+            color: #333;
+            font-size: 1.8rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .reservation-header i {
+            color: #beac75;
+        }
+        
+        .reservation-status {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: rgba(190, 172, 117, 0.2);
+            color: #8B5E3B;
+        }
+        
+        /* Contenu */
+        .reservation-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        
+        /* Colonne image */
+        .reservation-image-container {
+            padding: 2rem;
+            border-right: 1px solid rgba(190, 172, 117, 0.1);
+        }
+        
+        .reservation-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        /* Colonne info */
+        .reservation-info {
+            padding: 2rem;
+        }
+        
+        /* Sections d'information */
+        .info-section {
+            margin-bottom: 2rem;
+        }
+        
+        .info-section h2 {
+            color: #333;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(190, 172, 117, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-section h2 i {
+            color: #beac75;
+            font-size: 1.1rem;
+        }
+        
+        .info-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .info-item i {
+            color: #beac75;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        .info-item strong {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        /* Boutons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(190, 172, 117, 0.2);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: #beac75;
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: #a89b6d;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #beac75;
+            border: 1px solid #beac75;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(190, 172, 117, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .reservation-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .reservation-image-container {
+                border-right: none;
+                border-bottom: 1px solid rgba(190, 172, 117, 0.1);
+            }
+            
+            .reservation-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="reservation-detail-page">
+        <div class="reservation-container">
+            <div class="reservation-header">
+                <h1>
+                    <i class="fas fa-calendar-check"></i>
+                    Ma réservation : {{ reservation.idAnnonce.titre }}
+                    <span class="reservation-status">Confirmée</span>
+                </h1>
+            </div>
+            
+            <div class="reservation-content">
+                <div class="reservation-image-container">
+                    {% if reservation.idAnnonce.images|length > 0 %}
+                        <img src="{{ asset('uploads/images/' ~ reservation.idAnnonce.images|first.chemin) }}" 
+                             alt="{{ reservation.idAnnonce.titre }}" 
+                             class="reservation-image">
+                    {% else %}
+                        <img src="{{ asset('images/default_room.jpg') }}" 
+                             alt="Chambre par défaut" 
+                             class="reservation-image">
+                    {% endif %}
+                </div>
+                
+                <div class="reservation-info">
+                    {# Calcul de la durée du séjour #}
+                    {% set arrivalDate = reservation.dateDebut|date('Y-m-d') %}
+                    {% set departureDate = reservation.dateFin|date('Y-m-d') %}
+                    {% set difference = date(departureDate).diff(date(arrivalDate)) %}
+                    {% set nights = difference.days %}
+                    
+                    <div class="info-section">
+                        <h2><i class="fas fa-info-circle"></i> Détails de l'annonce</h2>
+                        <div class="info-item">
+                            <i class="fas fa-align-left"></i>
+                            <div>
+                                <strong>Description :</strong> {{ reservation.idAnnonce.description }}
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Adresse :</strong> {{ reservation.idAnnonce.adresse }}, {{ reservation.idAnnonce.ville }}
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-euro-sign"></i>
+                            <div>
+                                <strong>Prix :</strong> {{ reservation.idAnnonce.prix }} € / nuit
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h2><i class="fas fa-calendar-alt"></i> Mon séjour</h2>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-day"></i>
+                            <div>
+                                <strong>Arrivée :</strong> {{ reservation.dateDebut|date('d/m/Y à H:i') }}
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-times"></i>
+                            <div>
+                                <strong>Départ :</strong> {{ reservation.dateFin|date('d/m/Y à H:i') }}
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-moon"></i>
+                            <div>
+                                <strong>Durée :</strong> {{ nights }} nuit{% if nights > 1 %}s{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="{{ path('reservation_list') }}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> Retour
+                        </a>
+                        
+                        <a href="{{ path('reservation_delete', {'id': reservation.id}) }}" 
+                           class="btn btn-outline" 
+                           onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                            <i class="fas fa-times"></i> Annuler
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
