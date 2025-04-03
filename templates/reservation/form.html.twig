@@ -1,43 +1,108 @@
 {# filepath: /Users/marlenaxynou/ChezToiChezMoi/templates/reservation/form.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Réserver {{ annonce.titre }}{% endblock %}
+{% block title %}Réserver {{ annonce.titre }} - ChezToiChezMoi{% endblock %}
 
-{% block body_class %}reservation-page{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="reservation-container">
-            <h1 class="reservation-header">Réserver {{ annonce.titre }}</h1>
+    {# Calcul du nombre de jours #}
+    {% set arrivalDate = arrival|date('Y-m-d') %}
+    {% set departureDate = departure|date('Y-m-d') %}
+    {% set difference = date(departureDate).diff(date(arrivalDate)) %}
+    {% set days = difference.days %}
 
-            <div class="room-card">
-                {% if annonce.images|length > 0 %}
-                    <img src="{{ asset('uploads/images/' ~ annonce.images|first.chemin) }}" alt="{{ annonce.titre }}">
-                {% endif %}
-                <div class="room-info">
-                    <h2>{{ annonce.titre }}</h2>
+    <main class="reservation-page">
+        <div class="reservation-container">
+            <div class="reservation-header">
+                <h1><i class="fas fa-calendar-check"></i> Réserver {{ annonce.titre }}</h1>
+            </div>
+            
+            <div class="reservation-content">
+                {# Colonne gauche - Détails de la chambre #}
+                <div class="room-section">
+                    {% if annonce.images|length > 0 %}
+                        <img src="{{ asset('uploads/images/' ~ annonce.images|first.chemin) }}" 
+                             alt="{{ annonce.titre }}" 
+                             class="room-image">
+                    {% else %}
+                        <img src="{{ asset('images/default_room.jpg') }}" 
+                             alt="Chambre par défaut" 
+                             class="room-image">
+                    {% endif %}
+                    
+                    <h2 class="room-title">{{ annonce.titre }}</h2>
                     <p>{{ annonce.description }}</p>
-                    <p><strong>Prix :</strong> {{ annonce.prix }} € / nuit</p>
-                    <p><strong>Adresse :</strong> {{ annonce.adresse }}, {{ annonce.ville }}</p>
-                    <p><strong>Nombre de personnes :</strong> {{ annonce.nbPersonne }}</p>
+                    
+                    <div class="room-price">{{ annonce.prix }} € / nuit</div>
+                    
+                    <div class="room-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ annonce.adresse }}, {{ annonce.ville }}</span>
+                    </div>
+                    
+                    <div class="room-detail">
+                        <i class="fas fa-user-friends"></i>
+                        <span>Jusqu'à {{ annonce.nbPersonne }} personne(s)</span>
+                    </div>
+                    
+                    {# Section propriétaire #}
+                    <div class="owner-info">
+                        <div class="owner-title"><i class="fas fa-user-tie"></i> Propriétaire</div>
+                        <div class="room-detail">
+                            <i class="fas fa-user"></i>
+                            <span>{{ annonce.idUtilisateur.prenom }} {{ annonce.idUtilisateur.nom }}</span>
+                        </div>
+                        <div class="room-detail">
+                            <i class="fas fa-envelope"></i>
+                            <span>{{ annonce.idUtilisateur.email }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                {# Colonne droite - Récapitulatif #}
+                <div class="reservation-section">
+                    <h3 class="summary-title"><i class="fas fa-clipboard-list"></i> Votre séjour</h3>
+                    
+                    <div class="room-detail">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>Arrivée : {{ arrival|date('d/m/Y') }}</span>
+                    </div>
+                    
+                    <div class="room-detail">
+                        <i class="fas fa-calendar-times"></i>
+                        <span>Départ : {{ departure|date('d/m/Y') }}</span>
+                    </div>
+                    
+                    <div class="room-detail">
+                        <i class="fas fa-users"></i>
+                        <span>{{ app.session.get('reservation_data').persons }} personne(s)</span>
+                    </div>
+                    
+                    <div class="total-price">
+                        <i class="fas fa-calculator"></i> Total : {{ (annonce.prix * days)|number_format(2, ',', ' ') }} € ({{ days }} nuit{% if days > 1 %}s{% endif %})
+                    </div>
+                    
+                    <form method="post" action="{{ path('app_reservation_submit') }}">
+                        <input type="hidden" name="annonce_id" value="{{ annonce.id }}">
+                        <input type="hidden" name="date_debut" value="{{ arrivalString }}">
+                        <input type="hidden" name="date_fin" value="{{ departureString }}">
+                        <input type="hidden" name="persons" value="{{ app.session.get('reservation_data').persons }}">
+                        
+                        <div class="action-buttons">
+                            <button type="submit" class="btn btn-confirm"
+                                    onclick="return confirm('Confirmez-vous cette réservation ?')">
+                                <i class="fas fa-check-circle"></i> Confirmer
+                            </button>
+                            <a href="{{ path('app_home') }}" class="btn btn-cancel">
+                                <i class="fas fa-times-circle"></i> Annuler
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <p>Date d'arrivée: {{ arrival|date('Y-m-d') }}</p>
-            <p>Date de départ: {{ departure|date('Y-m-d') }}</p>
-            <p>Nombre de personnes: {{ app.session.get('reservation_data').persons }}</p>
-
-            <form method="post" action="{{ path('app_reservation_submit') }}" class="reservation-form">
-                <input type="hidden" name="annonce_id" value="{{ annonce.id }}" class="form-control">
-                <input type="hidden" name="date_debut" value="{{ arrivalString }}" class="form-control">
-                <input type="hidden" name="date_fin" value="{{ departureString }}" class="form-control">
-                <input type="hidden" name="persons" value="{{ app.session.get('reservation_data').persons }}" class="form-control">
-
-                <button type="submit" class="btn btn-primary" onclick="return confirm('Êtes-vous sûr de vouloir confirmer cette réservation ?')">Confirmer la réservation</button>
-            </form>
-
-            <a href="{{ path('app_home') }}" class="btn btn-secondary">Annuler</a>
-
         </div>
     </main>
 {% endblock %}
