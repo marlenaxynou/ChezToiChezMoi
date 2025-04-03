@@ -18,7 +18,9 @@
 
                     <label for="date_fin">Date de départ:</label>
                     <input type="date" id="date_fin" name="date_fin" value="{{ app.request.query.get('date_fin') }}">
-
+                    <label for="nb_personnes">Nombre de personnes:</label>
+                    <input type="number" id="nb_personnes" name="nb_personnes" value="{{ nb_personnes }}">
+                    
                     <button type="submit">Filtrer</button>
                 </div>
             </form>
@@ -36,6 +38,7 @@
                             <p class="chambre-price">{{ annonce.prix }} €</p>
                             <p class="chambre-description">{{ annonce.description }}</p>
                             <a href="{{ path('app_reservation', {'id': annonce.id, 'date_debut': app.request.query.get('date_debut'), 'date_fin': app.request.query.get('date_fin')}) }}" class="btn-reserver">Réserver</a>
+
                         </div>
                     </div>
                 {% endfor %}

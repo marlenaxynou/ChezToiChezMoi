@@ -181,30 +181,32 @@ public function search(Request $request, AnnonceRepository $annonceRepository): 
     }
 
     #[Route('/chambres', name: 'app_chambres')]
-public function chambres(Request $request, AnnonceRepository $annonceRepository): Response
-{
-    $dateDebutString = $request->query->get('date_debut');
-    $dateFinString = $request->query->get('date_fin');
+    public function chambres(Request $request, AnnonceRepository $annonceRepository): Response
+    {
+        $dateDebutString = $request->query->get('date_debut');
+        $dateFinString = $request->query->get('date_fin');
+        $nbPersonnes = $request->query->get('nb_personnes');
 
-    $dateDebut = null;
-    $dateFin = null;
+        $dateDebut = null;
+        $dateFin = null;
 
-    if ($dateDebutString && $dateFinString) {
-        try {
-            $dateDebut = new \DateTime($dateDebutString);
-            $dateFin = new \DateTime($dateFinString);
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'Invalid date format.');
-            return $this->redirectToRoute('app_chambres');
+        if ($dateDebutString && $dateFinString) {
+            try {
+                $dateDebut = new \DateTime($dateDebutString);
+                $dateFin = new \DateTime($dateFinString);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Invalid date format.');
+                return $this->redirectToRoute('app_chambres');
+            }
         }
+
+        $annonces = $annonceRepository->findAvailableAnnoncesForChambres($dateDebut, $dateFin, $nbPersonnes);
+
+        return $this->render('search/chambres.html.twig', [
+            'annonces' => $annonces,
+            'date_debut' => $dateDebutString,
+            'date_fin' => $dateFinString,
+            'nb_personnes' => $nbPersonnes,
+        ]);
     }
-
-    $annonces = $annonceRepository->findAvailableAnnoncesForChambres($dateDebut, $dateFin);
-
-    return $this->render('search/chambres.html.twig', [
-        'annonces' => $annonces,
-        'date_debut' => $dateDebutString,
-        'date_fin' => $dateFinString,
-    ]);
-}
 }
