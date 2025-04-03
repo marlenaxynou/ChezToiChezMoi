@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Mon compte</h1>
+
+    <h3>Données personnelles</h3>
+    <ul>
+        <li><strong>Nom :</strong> {{ user.nom }}</li>
+        <li><strong>Prénom :</strong> {{ user.prenom }}</li>
+        <li><strong>Email :</strong> {{ user.email }}</li>
+    </ul>
+
+    <h3>Mes annonces</h3>
+    {% if annonces|length > 0 %}
+        <ul>
+            {% for annonce in annonces %}
+                <li>
+                    <strong>{{ annonce.titre }}</strong> - {{ annonce.ville }} - {{ annonce.prix }} €
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune annonce pour le moment.</p>
+    {% endif %}
+
+    <h3>Mes réservations</h3>
+    {% if reservations|length > 0 %}
+        <ul>
+            {% for reservation in reservations %}
+                <li>
+                    Du {{ reservation.dateDebut|date('d/m/Y') }} au {{ reservation.dateFin|date('d/m/Y') }}
+                    {% if reservation.idAnnonce is not null %}
+                        ({{ reservation.idAnnonce.titre }})
+                    {% else %}
+                        (Annonce inconnue)
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune réservation effectuée.</p>
+    {% endif %}
+</div>
+{% endblock %}

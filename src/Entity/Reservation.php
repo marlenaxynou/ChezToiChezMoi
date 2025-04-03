@@ -21,12 +21,14 @@ class Reservation
     private ?\DateTimeInterface $date_fin = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "id_annonce", referencedColumnName: "id", nullable: false)]
     private ?Annonce $id_annonce = null;
 
+
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "id_utilisateur", referencedColumnName: "id", nullable: false)]
     private ?Utilisateur $id_utilisateur = null;
+
 
     public function getId(): ?int
     {
