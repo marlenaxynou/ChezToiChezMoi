@@ -1,4 +1,3 @@
-{# filepath: /Users/marlenaxynou/ChezToiChezMoi/templates/search/chambres.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Chambres - ChezToiChezMoi{% endblock %}
@@ -31,11 +30,23 @@
                         {% else %}
                             <img src="{{ asset('images/default_room.jpg') }}" alt="Image par défaut" class="chambre-image">
                         {% endif %}
+
                         <div class="chambre-details">
                             <h2 class="chambre-title">{{ annonce.titre }}</h2>
                             <p class="chambre-price">{{ annonce.prix }} €</p>
                             <p class="chambre-description">{{ annonce.description }}</p>
-                            <a href="{{ path('app_reservation', {'id': annonce.id, 'date_debut': app.request.query.get('date_debut'), 'date_fin': app.request.query.get('date_fin')}) }}" class="btn-reserver">Réserver</a>
+
+                            <div class="chambre-buttons">
+                                <a href="{{ path('app_reservation', {
+                                    'id': annonce.id,
+                                    'date_debut': app.request.query.get('date_debut'),
+                                    'date_fin': app.request.query.get('date_fin')
+                                }) }}" class="btn-reserver">Réserver</a>
+
+                                <a href="{{ path('annonce_read', { 'id': annonce.id }) }}" class="btn-avis">
+                                    Voir les avis
+                                </a>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

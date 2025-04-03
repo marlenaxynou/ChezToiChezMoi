@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Annonce;
 use App\Entity\Image;
+use App\Entity\Avis;
 use App\Form\AnnonceType;
+use App\Form\AvisType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,39 +22,39 @@ class AnnonceController extends AbstractController
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $annonce->setDateCreation(new \DateTime());
-            
+
             $images = $form->get('images')->getData();
             foreach ($images as $imageFile) {
                 if ($imageFile) {
                     $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                    
+
                     $imageFile->move($this->getParameter('images_directory'), $newFilename);
-                    
+
                     $image = new Image();
                     $image->setChemin((string) $newFilename);
                     $image->setIdAnnonce($annonce);
                     $em->persist($image);
                 }
             }
-            
+
             $user = $this->getUser();
             if (!$user) {
                 throw new \Exception("Aucun utilisateur connecté !");
             }
-            
+
             $annonce->setIdUtilisateur($user);
             $this->addFlash('success', 'Votre annonce a été créée avec succès !');
             $em->persist($annonce);
             $em->flush();
-            
+
             return $this->redirectToRoute('annonce_create');
         }
-        
+
         return $this->render('annonce/create.html.twig', ['form' => $form->createView()]);
     }
 
@@ -64,14 +66,35 @@ class AnnonceController extends AbstractController
     }
 
     #[Route('/annonce/{id}', name: 'annonce_read')]
-    public function read(EntityManagerInterface $em, int $id): Response
+    public function read(Request $request, EntityManagerInterface $em, int $id): Response
     {
         $annonce = $em->getRepository(Annonce::class)->find($id);
         if (!$annonce) {
             throw $this->createNotFoundException("L'annonce n'existe pas.");
         }
-        
-        return $this->render('annonce/read.html.twig', ['annonce' => $annonce]);
+
+        // ici pour qu'on ajouter un avis!
+        $avis = new Avis();
+        $form = $this->createForm(AvisType::class, $avis);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avis->setIdAnnonce($annonce);
+            $avis->setIdUtilisateur($this->getUser());
+            $avis->setDateAvis(new \DateTime());
+
+            $em->persist($avis);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre avis a bien été enregistré.');
+            return $this->redirectToRoute('annonce_read', ['id' => $annonce->getId()]);
+        }
+
+        return $this->render('annonce/showAvis.html.twig', [
+            'annonce' => $annonce,
+            'form' => $form->createView(),
+            'avisList' => $annonce->getAvis()
+        ]);
     }
 
     #[Route('/annonce/edit/{id}', name: 'annonce_edit')]
@@ -81,20 +104,20 @@ class AnnonceController extends AbstractController
         if (!$annonce) {
             throw $this->createNotFoundException("L'annonce n'existe pas.");
         }
-        
+
         if ($this->getUser() !== $annonce->getIdUtilisateur()) {
             throw $this->createAccessDeniedException("Vous n'avez pas la permission de modifier cette annonce.");
         }
-        
+
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             $this->addFlash('success', 'Annonce mise à jour avec succès !');
             return $this->redirectToRoute('annonce_list');
         }
-        
+
         return $this->render('annonce/update.html.twig', ['form' => $form->createView()]);
     }
 
@@ -105,21 +128,20 @@ class AnnonceController extends AbstractController
         if (!$annonce) {
             throw $this->createNotFoundException("L'annonce n'existe pas.");
         }
-        
+
         if ($this->getUser() !== $annonce->getIdUtilisateur()) {
             throw $this->createAccessDeniedException("Vous n'avez pas la permission de supprimer cette annonce.");
         }
-        
+
         foreach ($annonce->getImages() as $image) {
             $annonce->removeImage($image);
             $em->remove($image);
         }
-    
+
         $em->remove($annonce);
         $em->flush();
-        
+
         $this->addFlash('success', 'Annonce supprimée avec succès !');
         return $this->redirectToRoute('annonce_list');
     }
-    
 }
