@@ -60,7 +60,11 @@ class AnnonceController extends AbstractController
     public function list(EntityManagerInterface $em): Response
     {
         $annonces = $em->getRepository(Annonce::class)->findAll();
-        return $this->render('annonce/list.html.twig', ['annonces' => $annonces]);
+        
+        return $this->render('annonce/list.html.twig', [
+            'annonces' => $annonces,
+            'user' => $this->getUser()
+        ]);
     }
 
     #[Route('/annonce/{id}', name: 'annonce_read')]
@@ -109,11 +113,15 @@ class AnnonceController extends AbstractController
         if ($this->getUser() !== $annonce->getIdUtilisateur()) {
             throw $this->createAccessDeniedException("Vous n'avez pas la permission de supprimer cette annonce.");
         }
+        foreach ($annonce->getReservations() as $reservation) {
+            $em->remove($reservation);
+        }
         
         foreach ($annonce->getImages() as $image) {
             $annonce->removeImage($image);
             $em->remove($image);
         }
+
     
         $em->remove($annonce);
         $em->flush();

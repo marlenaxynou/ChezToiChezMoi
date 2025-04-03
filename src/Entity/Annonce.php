@@ -14,7 +14,7 @@ class Annonce
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]// Ensure type is explicitly set to integer)
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]

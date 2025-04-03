@@ -433,6 +433,25 @@ a:hover {
     border: 5px solid #f8f5f1;
 }
 
+.team-card .social-links {
+    display: flex;
+    justify-content: center;
+    /* Centrage horizontal */
+    gap: 1.5rem;
+    /* Espace entre icônes */
+    margin-top: 1.2rem;
+}
+
+.team-card .social-links a {
+    border-radius: 50%;
+    padding: 8px;
+}
+
+.team-card .social-links a:hover {
+    background: #bca265;
+    color: white;
+}
+
 
 /* Mission section */
 
@@ -815,14 +834,23 @@ a:hover {
     }
 }
 
+.contact-page {
+    padding-top: 100px;
+    /* Marge fixe sous la navbar */
+    min-height: 100vh;
+    background-color: #f8f5f1;
+    display: flex;
+    flex-direction: column;
+}
+
 
 /* Structure pleine page */
 
 .contact-fullpage {
     display: flex;
-    min-height: 100vh;
+    min-height: 1000px;
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     font-family: 'Roboto', sans-serif;
 }
@@ -1001,6 +1029,9 @@ a:hover {
 .social-link:hover {
     color: #a58d57;
 }
+
+
+/* == ANONCE == */
 
 
 /* Page Chambre */

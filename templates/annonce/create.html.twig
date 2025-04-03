@@ -1,32 +1,77 @@
+{% extends 'base.html.twig' %}
 
+{% block title %}Créer une annonce - ChezToiChezMoi{% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/annonce.css') }}">
 {% endblock %}
 
 {% block body %}
-    <!-- Le bouton "Retour à l'accueil" en haut à gauche -->
-    <a href="{{ path('app_home') }}" class="return-btn">Retour à l'accueil</a>
-    
-    <div class="container">
-        <h1>Créer une annonce</h1>
-        
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
+<div class="create-form-page">
+    <a href="{{ path('annonce_list') }}" class="return-btn">
+        <i class="fas fa-arrow-left"></i> Retour aux annonces
+    </a>
+    <div class="create-form-grid">
+        <div class="create-form-header">
+            <h1 class="create-form-title">
+                <i class="fas fa-plus-circle"></i> Créer une annonce
+            </h1>
+        </div>
 
-        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
-            {{ form_row(form.titre) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.prix) }}
-            {{ form_row(form.adresse) }}
-            {{ form_row(form.ville) }}
-            {{ form_row(form.nb_personne) }}
-            {{ form_row(form.disponibilite) }}
-            {{ form_row(form.images) }}
-            <button type="submit" class="btn">Créer</button>
+        {{ form_start(form, {'attr': {'class': 'full-width', 'enctype': 'multipart/form-data'}}) }}
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form_label(form.titre) }}
+                    {{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form_label(form.prix) }}
+                    {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form_label(form.ville) }}
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form_label(form.nb_personne) }}
+                    {{ form_widget(form.nb_personne, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_label(form.adresse) }}
+                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form_label(form.disponibilite) }}
+                    {{ form_widget(form.disponibilite, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form_label(form.images) }}
+                    {{ form_widget(form.images, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Publier l'annonce
+                </button>
+            </div>
         {{ form_end(form) }}
     </div>
+</div>
 {% endblock %}
