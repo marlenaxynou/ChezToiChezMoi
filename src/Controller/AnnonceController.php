@@ -61,8 +61,20 @@ class AnnonceController extends AbstractController
     #[Route('/annonce/list', name: 'annonce_list')]
     public function list(EntityManagerInterface $em): Response
     {
-        $annonces = $em->getRepository(Annonce::class)->findAll();
-        return $this->render('annonce/list.html.twig', ['annonces' => $annonces]);
+        $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException("Vous devez être connecté pour voir vos annonces.");
+        }
+
+        $annonces = $em->getRepository(Annonce::class)->findBy([
+            'id_utilisateur' => $user
+        ]);
+
+        return $this->render('annonce/list.html.twig', [
+            'annonces' => $annonces,
+            'user' => $user
+        ]);
     }
 
     #[Route('/annonce/{id}', name: 'annonce_read')]
